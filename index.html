@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>body{margin:0}[hidden]{display:none!important}</style>
-<title>Einmaleins-Training</title>
+<title>Johannas 1x1 Trainer</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 <style>
 /* Layout: ein Blatt Häuschenpapier (hell) bzw. eine Wandtafel (dunkel); eine schmale, zentrierte Spalte mit einer Aufgabe und grossem Zahlenfeld darunter. */
@@ -189,6 +189,9 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .pad .zero { grid-column: 2; }
 
 /* Ergebnis */
+.verdict { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.verdict h2 { font-size: 1.8rem; }
+.badge { font-size: 5.5rem; line-height: 1.1; }
 .score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .score div {
   background: var(--surface);
@@ -236,10 +239,11 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 <main>
   <section id="start">
-    <h1>Einmaleins-Training</h1>
+    <h1>Johannas 1x1 Trainer</h1>
     <p class="sample" aria-hidden="true">7 · 8 = ?</p>
     <p>Du bekommst 10 Malaufgaben, eine nach der anderen. Nach jeder Aufgabe siehst du die Lösung. Am Schluss erfährst du, wie viele richtig waren und wie lange du gebraucht hast.</p>
     <p id="best" class="best" hidden></p>
+    <p id="total-start" class="soft" hidden></p>
     <button id="btn-start" class="primary" type="button">Los geht's</button>
   </section>
 
@@ -270,13 +274,17 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   </section>
 
   <section id="result" hidden>
-    <h2 id="headline">Geschafft!</h2>
+    <div class="verdict">
+      <div id="badge" class="badge" aria-hidden="true" hidden></div>
+      <h2 id="headline">Geschafft!</h2>
+    </div>
     <div class="score">
       <div class="ok"><b id="n-right">0</b><span>richtig</span></div>
       <div class="no"><b id="n-wrong">0</b><span>falsch</span></div>
       <div><b id="n-time">0:00</b><span>Zeit</span></div>
     </div>
     <p id="record" class="soft"></p>
+    <p id="total" class="soft"></p>
     <ul id="review" class="review"></ul>
     <button id="btn-again" class="primary" type="button">Noch einmal</button>
   </section>
@@ -310,7 +318,28 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   function saveBest(b) {
     try { localStorage.setItem("einmaleins-best", JSON.stringify(b)); } catch (e) {}
   }
+  function loadTotal() {
+    try {
+      var t = JSON.parse(localStorage.getItem("einmaleins-total"));
+      if (t && typeof t.solved === "number" && typeof t.right === "number") return t;
+    } catch (e) {}
+    return { solved: 0, right: 0 };
+  }
+  function addTotal(ok) {
+    var t = loadTotal();
+    t.solved++;
+    if (ok) t.right++;
+    try { localStorage.setItem("einmaleins-total", JSON.stringify(t)); } catch (e) {}
+  }
+  function totalText() {
+    var t = loadTotal();
+    if (!t.solved) return "";
+    return "Du hast schon " + t.solved + (t.solved === 1 ? " Rechnung" : " Rechnungen") + " gelöst, davon " + t.right + " richtig.";
+  }
   function showBest() {
+    var tt = totalText();
+    $("total-start").textContent = tt;
+    $("total-start").hidden = tt === "";
     var b = loadBest();
     if (!b) { $("best").hidden = true; return; }
     $("best").textContent = "Dein bestes Ergebnis: " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
@@ -376,6 +405,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     t.given = parseInt(input, 10);
     t.ok = t.given === t.a * t.b;
     checked = true;
+    addTotal(t.ok);
     setPad(false);
     var line = t.a + " · " + t.b + " = " + (t.a * t.b);
     $("answer").className = "answer " + (t.ok ? "ok" : "no");
@@ -401,10 +431,15 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("n-right").textContent = right;
     $("n-wrong").textContent = wrong;
     $("n-time").textContent = fmtTime(elapsed);
-    $("headline").textContent =
-      right === TOTAL ? "Alles richtig!" :
-      right >= 8 ? "Sehr gut gemacht!" :
-      right >= 5 ? "Gut gemacht!" : "Geschafft! Übung macht den Meister.";
+    var badge = "", text;
+    if (wrong === 0 && elapsed < 60000) { badge = "\uD83D\uDC51"; text = "Tolle Leistung!"; }
+    else if (wrong === 0) { badge = "\uD83D\uDC4D"; text = "Alles richtig. Du kannst das noch ein bisschen schneller!"; }
+    else if (wrong <= 2) { text = "Übe fleissig weiter!"; }
+    else { text = "Übung macht den Meister!"; }
+    $("badge").textContent = badge;
+    $("badge").hidden = badge === "";
+    $("headline").textContent = text;
+    $("total").textContent = totalText();
 
     var best = loadBest();
     var isRecord = !best || right > best.right || (right === best.right && elapsed < best.ms);
