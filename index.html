@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>Einmaleins-Training</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: ein Blatt Häuschenpapier (hell) bzw. eine Wandtafel (dunkel); eine schmale, zentrierte Spalte mit einer Aufgabe und grossem Zahlenfeld darunter. */
+:root {
+  --paper: #f8faf3;
+  --grid: #d3e3ea;
+  --ink: #1b3358;
+  --ink-soft: #5a6d88;
+  --surface: #ffffff;
+  --edge: #b9cbd6;
+  --key: #ffffff;
+  --key-press: #e4eef3;
+  --primary: #1b3358;
+  --on-primary: #ffffff;
+  --right: #1f8a4c;
+  --right-bg: #dff3e6;
+  --wrong: #c8372d;
+  --wrong-bg: #fbe3e0;
+  --font-display: "Baloo 2", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1c3a33; --grid: #2a4b43; --ink: #f3f0e4; --ink-soft: #b3c4bb;
+    --surface: #24463e; --edge: #3f655b; --key: #2a5047; --key-press: #37635a;
+    --primary: #f3f0e4; --on-primary: #1c3a33;
+    --right: #8fe0a8; --right-bg: #23543c; --wrong: #ffa69c; --wrong-bg: #5a3230;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1c3a33; --grid: #2a4b43; --ink: #f3f0e4; --ink-soft: #b3c4bb;
+  --surface: #24463e; --edge: #3f655b; --key: #2a5047; --key-press: #37635a;
+  --primary: #f3f0e4; --on-primary: #1c3a33;
+  --right: #8fe0a8; --right-bg: #23543c; --wrong: #ffa69c; --wrong-bg: #5a3230;
+  color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  padding-inline: 16px;
+  padding-block: 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+*, *::before, *::after { box-sizing: inherit; }
+main {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+section { display: flex; flex-direction: column; gap: 20px; }
+
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: 3rem; }
+h2 { font-size: 2.2rem; }
+p { margin: 0; }
+.soft { color: var(--ink-soft); }
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+.primary {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 20px;
+  width: 100%;
+}
+.primary:disabled { opacity: 0.35; cursor: default; }
+.primary:active:not(:disabled) { transform: translateY(2px); }
+
+/* Start */
+.sample {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.best {
+  background: var(--surface);
+  border: 2px dashed var(--edge);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+/* Quiz */
+.progress { display: flex; flex-direction: column; gap: 8px; }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.dot {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--surface);
+  border: 2px solid var(--edge);
+}
+.dot.now { border-color: var(--ink); }
+.dot.ok { background: var(--right); border-color: var(--right); }
+.dot.no { background: var(--wrong); border-color: var(--wrong); }
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 15vw, 4rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.answer {
+  min-width: 2.2em;
+  padding: 6px 12px 0;
+  text-align: center;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+}
+.answer.empty { color: var(--edge); }
+.answer.ok { border-color: var(--right); background: var(--right-bg); color: var(--right); }
+.answer.no { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); text-decoration: line-through; }
+
+.feedback {
+  min-height: 3.2em;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.feedback.ok { color: var(--right); }
+.feedback.no { color: var(--wrong); }
+.feedback .solution {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--ink);
+}
+
+.pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.pad button {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.7rem;
+  line-height: 1;
+  padding: 12px 0 8px;
+  background: var(--key);
+  border: 2px solid var(--edge);
+  border-bottom-width: 4px;
+  border-radius: 12px;
+}
+.pad button:active:not(:disabled) { background: var(--key-press); transform: translateY(2px); border-bottom-width: 2px; }
+.pad button:disabled { opacity: 0.4; cursor: default; }
+.pad .zero { grid-column: 2; }
+
+/* Ergebnis */
+.score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.score div {
+  background: var(--surface);
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  padding: 10px 6px 8px;
+  text-align: center;
+}
+.score b {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.score span { font-size: 0.85rem; color: var(--ink-soft); }
+.score .ok b { color: var(--right); }
+.score .no b { color: var(--wrong); }
+
+.review {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+}
+.review li { padding: 4px 8px; border-radius: 8px; }
+.review li.ok { color: var(--right); }
+.review li.no { background: var(--wrong-bg); color: var(--wrong); }
+.review s { opacity: 0.8; }
+.review b { color: var(--ink); }
+
+@media (max-width: 340px) { .review { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) {
+  .answer.ok { animation: pop 0.25s ease-out; }
+  @keyframes pop { 50% { transform: scale(1.12); } }
+}
+</style>
+</head>
+<body>
+
+<main>
+  <section id="start">
+    <h1>Einmaleins-Training</h1>
+    <p class="sample" aria-hidden="true">7 · 8 = ?</p>
+    <p>Du bekommst 10 Malaufgaben, eine nach der anderen. Nach jeder Aufgabe siehst du die Lösung. Am Schluss erfährst du, wie viele richtig waren und wie lange du gebraucht hast.</p>
+    <p id="best" class="best" hidden></p>
+    <button id="btn-start" class="primary" type="button">Los geht's</button>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="progress">
+      <p id="count" class="soft">Aufgabe 1 von 10</p>
+      <div id="dots" class="dots" aria-hidden="true"></div>
+    </div>
+    <div class="task" aria-live="polite">
+      <span id="question">1 · 1 =</span>
+      <span id="answer" class="answer empty">?</span>
+    </div>
+    <p id="feedback" class="feedback" aria-live="polite"></p>
+    <div id="pad" class="pad">
+      <button type="button" data-k="1">1</button>
+      <button type="button" data-k="2">2</button>
+      <button type="button" data-k="3">3</button>
+      <button type="button" data-k="4">4</button>
+      <button type="button" data-k="5">5</button>
+      <button type="button" data-k="6">6</button>
+      <button type="button" data-k="7">7</button>
+      <button type="button" data-k="8">8</button>
+      <button type="button" data-k="9">9</button>
+      <button type="button" data-k="0" class="zero">0</button>
+      <button type="button" data-k="del" aria-label="Letzte Ziffer löschen">⌫</button>
+    </div>
+    <button id="btn-go" class="primary" type="button" disabled>Prüfen</button>
+  </section>
+
+  <section id="result" hidden>
+    <h2 id="headline">Geschafft!</h2>
+    <div class="score">
+      <div class="ok"><b id="n-right">0</b><span>richtig</span></div>
+      <div class="no"><b id="n-wrong">0</b><span>falsch</span></div>
+      <div><b id="n-time">0:00</b><span>Zeit</span></div>
+    </div>
+    <p id="record" class="soft"></p>
+    <ul id="review" class="review"></ul>
+    <button id="btn-again" class="primary" type="button">Noch einmal</button>
+  </section>
+</main>
+
+<script>
+(function () {
+  var TOTAL = 10;
+  var $ = function (id) { return document.getElementById(id); };
+  var screens = { start: $("start"), quiz: $("quiz"), result: $("result") };
+  var tasks = [], idx = 0, input = "", checked = false, taskStart = 0, elapsed = 0;
+
+  function show(name) {
+    for (var k in screens) screens[k].hidden = (k !== name);
+  }
+
+  function fmtTime(ms) {
+    var s = Math.round(ms / 1000);
+    var m = Math.floor(s / 60);
+    var r = s % 60;
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  function loadBest() {
+    try {
+      var b = JSON.parse(localStorage.getItem("einmaleins-best"));
+      if (b && typeof b.right === "number" && typeof b.ms === "number") return b;
+    } catch (e) {}
+    return null;
+  }
+  function saveBest(b) {
+    try { localStorage.setItem("einmaleins-best", JSON.stringify(b)); } catch (e) {}
+  }
+  function showBest() {
+    var b = loadBest();
+    if (!b) { $("best").hidden = true; return; }
+    $("best").textContent = "Dein bestes Ergebnis: " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
+    $("best").hidden = false;
+  }
+
+  function newRound() {
+    var all = [];
+    for (var a = 1; a <= 10; a++) for (var b = 1; b <= 10; b++) all.push({ a: a, b: b });
+    for (var i = all.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = all[i]; all[i] = all[j]; all[j] = t;
+    }
+    tasks = all.slice(0, TOTAL);
+    idx = 0;
+    elapsed = 0;
+    var dots = "";
+    for (var d = 0; d < TOTAL; d++) dots += '<span class="dot"></span>';
+    $("dots").innerHTML = dots;
+    show("quiz");
+    showTask();
+  }
+
+  function setPad(enabled) {
+    var keys = $("pad").querySelectorAll("button");
+    for (var i = 0; i < keys.length; i++) keys[i].disabled = !enabled;
+  }
+
+  function renderInput() {
+    var el = $("answer");
+    el.className = "answer" + (input === "" ? " empty" : "");
+    el.textContent = input === "" ? "?" : input;
+    $("btn-go").disabled = input === "";
+  }
+
+  function showTask() {
+    var t = tasks[idx];
+    input = "";
+    checked = false;
+    $("count").textContent = "Aufgabe " + (idx + 1) + " von " + TOTAL;
+    $("question").textContent = t.a + " · " + t.b + " =";
+    $("feedback").className = "feedback";
+    $("feedback").textContent = "";
+    $("btn-go").textContent = "Prüfen";
+    var dots = $("dots").children;
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("now", i === idx);
+    setPad(true);
+    renderInput();
+    taskStart = Date.now();
+  }
+
+  function press(k) {
+    if (checked) return;
+    if (k === "del") input = input.slice(0, -1);
+    else if (input.length < 3) input = (input === "0" ? "" : input) + k;
+    renderInput();
+  }
+
+  function check() {
+    if (input === "") return;
+    var t = tasks[idx];
+    elapsed += Date.now() - taskStart;
+    t.given = parseInt(input, 10);
+    t.ok = t.given === t.a * t.b;
+    checked = true;
+    setPad(false);
+    var line = t.a + " · " + t.b + " = " + (t.a * t.b);
+    $("answer").className = "answer " + (t.ok ? "ok" : "no");
+    var fb = $("feedback");
+    fb.className = "feedback " + (t.ok ? "ok" : "no");
+    fb.innerHTML = (t.ok ? "Richtig!" : "Das stimmt leider nicht.") + '<span class="solution">' + line + "</span>";
+    var dot = $("dots").children[idx];
+    dot.classList.remove("now");
+    dot.classList.add(t.ok ? "ok" : "no");
+    $("btn-go").textContent = idx === TOTAL - 1 ? "Zum Ergebnis" : "Weiter";
+    $("btn-go").disabled = false;
+  }
+
+  function next() {
+    if (idx < TOTAL - 1) { idx++; showTask(); }
+    else finish();
+  }
+
+  function finish() {
+    var right = 0;
+    for (var i = 0; i < tasks.length; i++) if (tasks[i].ok) right++;
+    var wrong = TOTAL - right;
+    $("n-right").textContent = right;
+    $("n-wrong").textContent = wrong;
+    $("n-time").textContent = fmtTime(elapsed);
+    $("headline").textContent =
+      right === TOTAL ? "Alles richtig!" :
+      right >= 8 ? "Sehr gut gemacht!" :
+      right >= 5 ? "Gut gemacht!" : "Geschafft! Übung macht den Meister.";
+
+    var best = loadBest();
+    var isRecord = !best || right > best.right || (right === best.right && elapsed < best.ms);
+    if (isRecord) saveBest({ right: right, ms: elapsed });
+    $("record").textContent = isRecord && best
+      ? "Das ist dein neues bestes Ergebnis!"
+      : (!isRecord ? "Dein bestes Ergebnis bisher: " + best.right + " richtig in " + fmtTime(best.ms) + " Minuten" : "");
+
+    var html = "";
+    for (var j = 0; j < tasks.length; j++) {
+      var t = tasks[j];
+      var q = t.a + " · " + t.b + " = ";
+      html += t.ok
+        ? '<li class="ok">✓ ' + q + (t.a * t.b) + "</li>"
+        : '<li class="no">✗ ' + q + "<s>" + t.given + "</s> <b>" + (t.a * t.b) + "</b></li>";
+    }
+    $("review").innerHTML = html;
+    show("result");
+    $("btn-again").focus();
+  }
+
+  function primary() {
+    if (!screens.start.hidden || !screens.result.hidden) newRound();
+    else if (checked) next();
+    else check();
+  }
+
+  $("btn-start").addEventListener("click", newRound);
+  $("btn-again").addEventListener("click", newRound);
+  $("btn-go").addEventListener("click", function () { if (checked) next(); else check(); });
+  $("pad").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b && !b.disabled) press(b.getAttribute("data-k"));
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === "Enter") { e.preventDefault(); primary(); return; }
+    if (screens.quiz.hidden) return;
+    if (e.key >= "0" && e.key <= "9" && e.key.length === 1) press(e.key);
+    else if (e.key === "Backspace") { e.preventDefault(); press("del"); }
+  });
+
+  showBest();
+})();
+</script>
+</body>
+</html>
