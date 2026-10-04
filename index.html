@@ -105,6 +105,35 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .primary:disabled { opacity: 0.35; cursor: default; }
 .primary:active:not(:disabled) { transform: translateY(2px); }
 
+.ghost {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  background: transparent;
+  color: var(--ink-soft);
+  border: 2px solid var(--edge);
+  border-radius: 12px;
+  padding: 10px 14px;
+  width: 100%;
+}
+.ghost:active { transform: translateY(1px); }
+
+/* Startauswahl */
+.modes { display: flex; flex-direction: column; gap: 12px; }
+.mode {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-align: center;
+  background: var(--surface);
+  color: var(--ink);
+  border: 3px solid var(--primary);
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  width: 100%;
+}
+.mode:active { transform: translateY(2px); }
+.mode b { display: block; font-size: 1.6rem; line-height: 1.1; }
+
 /* Start */
 .sample {
   font-family: var(--font-display);
@@ -188,6 +217,52 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .pad button:disabled { opacity: 0.4; cursor: default; }
 .pad .zero { grid-column: 2; }
 
+/* Reihe-nach-Modus */
+.rowhead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.rowhead .which { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; }
+.rowhead .dir { font-weight: 700; color: var(--ink-soft); }
+.seqline {
+  background: var(--surface);
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  padding: 12px 14px;
+  min-height: 3em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.seqline .num { color: var(--ink); }
+.seqline .slot {
+  min-width: 1.6em;
+  text-align: center;
+  color: var(--wrong);
+  border-bottom: 4px solid var(--wrong);
+  border-radius: 4px;
+  padding: 0 6px;
+}
+.seqline .sep { color: var(--edge); font-weight: 600; }
+.choices { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.choices button {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 14px 0 11px;
+  background: var(--key);
+  border: 2px solid var(--edge);
+  border-bottom-width: 4px;
+  border-radius: 12px;
+}
+.choices button:active:not(:disabled) { background: var(--key-press); transform: translateY(2px); border-bottom-width: 2px; }
+.choices button.no { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
+.choices button.ok { background: var(--right-bg); border-color: var(--right); color: var(--right); }
+.choices button:disabled { cursor: default; }
+
 /* Ergebnis */
 .verdict { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
 .verdict h2 { font-size: 1.8rem; }
@@ -231,6 +306,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 @media (max-width: 340px) { .review { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: no-preference) {
   .answer.ok { animation: pop 0.25s ease-out; }
+  .choices button.ok { animation: pop 0.25s ease-out; }
   @keyframes pop { 50% { transform: scale(1.12); } }
 }
 </style>
@@ -241,10 +317,12 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   <section id="start">
     <h1>Johannas 1x1 Trainer</h1>
     <p class="sample" aria-hidden="true">7 · 8 = ?</p>
-    <p>Du bekommst 10 Malaufgaben, eine nach der anderen. Nach jeder Aufgabe siehst du die Lösung. Am Schluss erfährst du, wie viele richtig waren und wie lange du gebraucht hast.</p>
+    <div class="modes">
+      <button id="btn-seq" class="mode" type="button"><b>Der Reihe nach</b></button>
+      <button id="btn-random" class="mode" type="button"><b>Zufällig</b></button>
+    </div>
     <p id="best" class="best" hidden></p>
     <p id="total-start" class="soft" hidden></p>
-    <button id="btn-start" class="primary" type="button">Los geht's</button>
   </section>
 
   <section id="quiz" hidden>
@@ -273,6 +351,21 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     <button id="btn-go" class="primary" type="button" disabled>Prüfen</button>
   </section>
 
+  <section id="seqquiz" hidden>
+    <div class="progress">
+      <div class="rowhead">
+        <span class="which"><span id="seq-row">6er-Reihe</span></span>
+        <span class="dir" id="seq-dir">aufwärts</span>
+      </div>
+      <p id="seq-count" class="soft">Zahl 1 von 9</p>
+      <div id="seq-dots" class="dots" aria-hidden="true"></div>
+    </div>
+    <div id="seq-line" class="seqline" aria-live="polite"></div>
+    <p id="seq-feedback" class="feedback" aria-live="polite"></p>
+    <div id="choices" class="choices"></div>
+    <button id="btn-seq-stop" class="ghost" type="button">Beenden</button>
+  </section>
+
   <section id="result" hidden>
     <div class="verdict">
       <div id="badge" class="badge" aria-hidden="true" hidden></div>
@@ -287,20 +380,41 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     <p id="total" class="soft"></p>
     <ul id="review" class="review"></ul>
     <button id="btn-again" class="primary" type="button">Noch einmal</button>
+    <button id="btn-menu" class="ghost" type="button">Zur Auswahl</button>
+  </section>
+
+  <section id="seqresult" hidden>
+    <div class="verdict">
+      <div id="seq-badge" class="badge" aria-hidden="true" hidden></div>
+      <h2 id="seq-headline">Geschafft!</h2>
+    </div>
+    <p id="seq-which" class="soft"></p>
+    <div class="score">
+      <div><b id="s-done">0</b><span>Zahlen</span></div>
+      <div class="no"><b id="s-wrong">0</b><span>Fehler</span></div>
+      <div><b id="s-time">0:00</b><span>Zeit</span></div>
+    </div>
+    <p id="seq-total" class="soft"></p>
+    <button id="btn-seq-again" class="primary" type="button">Neue Reihe</button>
+    <button id="btn-seq-menu" class="ghost" type="button">Zur Auswahl</button>
   </section>
 </main>
 
 <script>
 (function () {
   var TOTAL = 10;
+  var ROWS_MAX = 10;   // Reihen 1..10
+  var MULT_MAX = 10;   // jeweils bis ×10 (1er: 0..10, 6er: 0..60, 10er: 0..100)
+  var FAST_MS = 80000; // unter 80 Sekunden = Champion (Feuerwerk)
   var $ = function (id) { return document.getElementById(id); };
-  var screens = { start: $("start"), quiz: $("quiz"), result: $("result") };
-  var tasks = [], idx = 0, input = "", checked = false, taskStart = 0, elapsed = 0;
+  var screens = {
+    start: $("start"), quiz: $("quiz"), seqquiz: $("seqquiz"),
+    result: $("result"), seqresult: $("seqresult")
+  };
 
   function show(name) {
     for (var k in screens) screens[k].hidden = (k !== name);
   }
-
   function fmtTime(ms) {
     var s = Math.round(ms / 1000);
     var m = Math.floor(s / 60);
@@ -308,6 +422,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     return m + ":" + (r < 10 ? "0" : "") + r;
   }
 
+  /* ---------------- Gespeicherte Werte (Bestleistung, Gesamtbilanz) ---------------- */
   function loadBest() {
     try {
       var b = JSON.parse(localStorage.getItem("einmaleins-best"));
@@ -342,9 +457,70 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("total-start").hidden = tt === "";
     var b = loadBest();
     if (!b) { $("best").hidden = true; return; }
-    $("best").textContent = "Dein bestes Ergebnis: " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
+    $("best").textContent = "Dein bestes Ergebnis (zufällig): " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
     $("best").hidden = false;
   }
+
+  /* Belohnung: gleiche Regel für beide Modi
+     Stufe 1: 0 Fehler und unter 80 s  -> Feuerwerk  "Du bist ein Champion!"
+     Stufe 2: 0 Fehler, 80 s oder mehr  -> Krone      "Tolle Leistung! Alles richtig! Noch ein bisschen schneller."
+     Stufe 3: 1-2 Fehler                 -> Daumen     "Übe fleissig weiter!"
+     Stufe 4: 3+ Fehler                  -> kein Bild  "Übung macht den Meister!" */
+  function verdict(wrong, ms) {
+    if (wrong === 0 && ms < FAST_MS) return { badge: "", text: "Du bist ein Champion!", fireworks: true };
+    if (wrong === 0) return { badge: "👑", text: "Tolle Leistung! Alles richtig! Noch ein bisschen schneller." };
+    if (wrong <= 2) return { badge: "👍", text: "Übe fleissig weiter!" };
+    return { badge: "", text: "Übung macht den Meister!" };
+  }
+
+  /* Kleines Feuerwerk (Canvas-Overlay, ca. 2.5 s, ohne externe Bibliothek) */
+  function fireworks() {
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var c = document.createElement("canvas");
+      c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999";
+      document.body.appendChild(c);
+      var ctx = c.getContext("2d");
+      var dpr = window.devicePixelRatio || 1;
+      function size() { c.width = window.innerWidth * dpr; c.height = window.innerHeight * dpr; }
+      size();
+      var parts = [], colors = ["#ffd166", "#ff5d8f", "#06d6a0", "#4cc9f0", "#ff9f1c", "#ffffff", "#c77dff"];
+      function burst(x, y) {
+        var col = colors[Math.floor(Math.random() * colors.length)];
+        for (var i = 0; i < 90; i++) {
+          var a = Math.random() * Math.PI * 2, s = (2.5 + Math.random() * 5.5) * dpr;
+          parts.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1,
+                       col: Math.random() < 0.7 ? col : "#ffffff", r: (2.5 + Math.random() * 3) * dpr });
+        }
+      }
+      var t0 = Date.now(), n = 0;
+      burst(0.5 * c.width, 0.25 * c.height);          // erste Salve sofort in der Mitte
+      var timer = setInterval(function () {
+        if (n++ < 8) burst((0.15 + Math.random() * 0.7) * c.width, (0.12 + Math.random() * 0.45) * c.height);
+        else clearInterval(timer);
+      }, 330);
+      function frame() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i];
+          p.x += p.vx; p.y += p.vy; p.vy += 0.05 * dpr; p.vx *= 0.985; p.vy *= 0.985; p.life -= 0.013;
+          if (p.life <= 0) { parts.splice(i, 1); continue; }
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.fillStyle = p.col;
+          ctx.shadowBlur = 8 * dpr; ctx.shadowColor = p.col;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (0.6 + 0.4 * p.life), 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+        if (Date.now() - t0 < 3600 || parts.length) requestAnimationFrame(frame);
+        else if (c.parentNode) c.parentNode.removeChild(c);
+      }
+      requestAnimationFrame(frame);
+    } catch (e) {}
+  }
+
+  /* ---------------- Zufällig ---------------- */
+  var tasks = [], idx = 0, input = "", checked = false, taskStart = 0, elapsed = 0;
 
   function newRound() {
     var all = [];
@@ -362,19 +538,16 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     show("quiz");
     showTask();
   }
-
   function setPad(enabled) {
     var keys = $("pad").querySelectorAll("button");
     for (var i = 0; i < keys.length; i++) keys[i].disabled = !enabled;
   }
-
   function renderInput() {
     var el = $("answer");
     el.className = "answer" + (input === "" ? " empty" : "");
     el.textContent = input === "" ? "?" : input;
     $("btn-go").disabled = input === "";
   }
-
   function showTask() {
     var t = tasks[idx];
     input = "";
@@ -390,14 +563,12 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     renderInput();
     taskStart = Date.now();
   }
-
   function press(k) {
     if (checked) return;
     if (k === "del") input = input.slice(0, -1);
     else if (input.length < 3) input = (input === "0" ? "" : input) + k;
     renderInput();
   }
-
   function check() {
     if (input === "") return;
     var t = tasks[idx];
@@ -418,12 +589,10 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("btn-go").textContent = idx === TOTAL - 1 ? "Zum Ergebnis" : "Weiter";
     $("btn-go").disabled = false;
   }
-
   function next() {
     if (idx < TOTAL - 1) { idx++; showTask(); }
     else finish();
   }
-
   function finish() {
     var right = 0;
     for (var i = 0; i < tasks.length; i++) if (tasks[i].ok) right++;
@@ -431,14 +600,10 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("n-right").textContent = right;
     $("n-wrong").textContent = wrong;
     $("n-time").textContent = fmtTime(elapsed);
-    var badge = "", text;
-    if (wrong === 0 && elapsed < 60000) { badge = "\uD83D\uDC51"; text = "Tolle Leistung!"; }
-    else if (wrong === 0) { badge = "\uD83D\uDC4D"; text = "Alles richtig. Du kannst das noch ein bisschen schneller!"; }
-    else if (wrong <= 2) { text = "Übe fleissig weiter!"; }
-    else { text = "Übung macht den Meister!"; }
-    $("badge").textContent = badge;
-    $("badge").hidden = badge === "";
-    $("headline").textContent = text;
+    var v = verdict(wrong, elapsed);
+    $("badge").textContent = v.badge;
+    $("badge").hidden = v.badge === "";
+    $("headline").textContent = v.text;
     $("total").textContent = totalText();
 
     var best = loadBest();
@@ -459,27 +624,185 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("review").innerHTML = html;
     show("result");
     $("btn-again").focus();
+    if (v.fireworks) fireworks();
   }
 
-  function primary() {
-    if (!screens.start.hidden || !screens.result.hidden) newRound();
-    else if (checked) next();
-    else check();
+  /* ---------------- Der Reihe nach ---------------- */
+  // Pro Durchgang EINE Reihe: Reihe (1..10) und Richtung werden zufällig gewählt.
+  var seq = [], seqShown = 0, seqN = 1, seqUp = true, seqSteps = 0;
+  var seqErrors = 0, seqDone = 0, seqStart = 0, seqLocked = false, stepHadError = false;
+
+  function startSeq() {
+    seqN = 1 + Math.floor(Math.random() * ROWS_MAX);
+    seqUp = Math.random() < 0.5;
+    seqErrors = 0;
+    seqDone = 0;
+    seqStart = Date.now();
+    show("seqquiz");
+    loadSeqRow();
   }
 
-  $("btn-start").addEventListener("click", newRound);
+  function loadSeqRow() {
+    seq = [];
+    var k;
+    if (seqUp) {
+      for (k = 0; k <= MULT_MAX; k++) seq.push(k * seqN);          // 0, n, ... 10n
+      seqShown = 2;                                                // 0 und n sind vorgegeben
+    } else {
+      for (k = MULT_MAX; k >= 0; k--) seq.push(k * seqN);          // 10n, 9n, ... 0
+      seqShown = 1;                                                // nur die oberste Zahl ist vorgegeben
+    }
+    seqSteps = seq.length - seqShown;                              // zu wählende Zahlen
+    stepHadError = false;
+    $("seq-row").textContent = seqN + "er-Reihe";
+    $("seq-dir").textContent = seqUp ? "aufwärts ↑" : "rückwärts ↓";
+    var dots = "";
+    for (var d = 0; d < seqSteps; d++) dots += '<span class="dot"></span>';
+    $("seq-dots").innerHTML = dots;
+    updateSeqProgress();
+    $("seq-feedback").className = "feedback";
+    $("seq-feedback").textContent = "";
+    seqLocked = false;
+    renderSeq();
+    renderChoices();
+  }
+
+  function updateSeqProgress() {
+    var step = Math.min(seqDone + 1, seqSteps);
+    $("seq-count").textContent = "Zahl " + step + " von " + seqSteps;
+    var dots = $("seq-dots").children;
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].classList.toggle("ok", i < seqDone);
+      dots[i].classList.toggle("now", i === seqDone);
+    }
+  }
+
+  function renderSeq() {
+    var box = $("seq-line");
+    var html = "";
+    for (var i = 0; i < seqShown; i++) {
+      if (i) html += '<span class="sep">·</span>';
+      html += '<span class="num">' + seq[i] + "</span>";
+    }
+    if (seqShown < seq.length) {
+      if (seqShown) html += '<span class="sep">·</span>';
+      html += '<span class="slot">?</span>';
+    }
+    box.innerHTML = html;
+  }
+
+  function renderChoices() {
+    var box = $("choices");
+    box.innerHTML = "";
+    if (seqShown >= seq.length) return;
+    var correct = seq[seqShown];         // gesuchte Zahl
+    // Fenster aus 10 aufeinanderfolgenden Zahlen, das die Lösung an zufälliger Stelle enthält
+    // (nicht mehr fix "die 10 über/unter der letzten Zahl", damit "immer die kleinste/grösste" nichts bringt)
+    var lo = Math.max(0, correct - Math.floor(Math.random() * 10));
+    var nums = [];
+    var i;
+    for (i = 0; i < 10; i++) nums.push(lo + i);
+    if (nums.indexOf(correct) < 0) nums[Math.floor(Math.random() * 10)] = correct;   // Sicherheitsnetz: Lösung immer dabei
+    // zufällige Reihenfolge, damit die richtige Zahl nicht immer an derselben Stelle steht
+    for (i = nums.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+    }
+    for (i = 0; i < nums.length; i++) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = nums[i];
+      b.setAttribute("data-v", nums[i]);
+      box.appendChild(b);
+    }
+  }
+
+  function pickChoice(btn) {
+    if (seqLocked) return;
+    if (seqShown >= seq.length) return;
+    var v = parseInt(btn.getAttribute("data-v"), 10);
+    var correct = seq[seqShown];
+    if (v === correct) {
+      btn.classList.add("ok");
+      addTotal(!stepHadError);          // zählt in der Gesamtbilanz mit
+      stepHadError = false;
+      seqShown++;
+      seqDone++;
+      $("seq-feedback").className = "feedback ok";
+      $("seq-feedback").textContent = "Richtig!";
+      seqLocked = true;
+      renderSeq();
+      window.setTimeout(advanceSeq, 450);
+    } else {
+      btn.classList.add("no");
+      btn.disabled = true;
+      seqErrors++;
+      stepHadError = true;
+      var fb = $("seq-feedback");
+      fb.className = "feedback no";
+      fb.innerHTML = "Das stimmt nicht – versuch es nochmal!" +
+        '<span class="solution">' + seq[seqShown - 1] + (seqUp ? " + " : " − ") + seqN + " = ?</span>";
+    }
+  }
+
+  function advanceSeq() {
+    seqLocked = false;
+    updateSeqProgress();
+    if (seqShown >= seq.length) {
+      finishSeq();                       // Reihe fertig -> Belohnung, Zeit und Fehler zeigen
+    } else {
+      $("seq-feedback").className = "feedback";
+      $("seq-feedback").textContent = "";
+      renderChoices();
+    }
+  }
+
+  function finishSeq() {
+    var ms = Date.now() - seqStart;
+    var complete = seqDone >= seqSteps;
+    $("seq-which").textContent = seqN + "er-Reihe " + (seqUp ? "aufwärts" : "rückwärts") +
+      (complete ? " – bis " + (MULT_MAX * seqN) + " geschafft" : " – abgebrochen");
+    $("s-done").textContent = seqDone + " / " + seqSteps;
+    $("s-wrong").textContent = seqErrors;
+    $("s-time").textContent = fmtTime(ms);
+    var v = complete ? verdict(seqErrors, ms) : { badge: "", text: "Übung beendet." };
+    $("seq-badge").textContent = v.badge;
+    $("seq-badge").hidden = v.badge === "";
+    $("seq-headline").textContent = v.text;
+    $("seq-total").textContent = totalText();
+    show("seqresult");
+    $("btn-seq-again").focus();
+    if (v.fireworks) fireworks();
+  }
+
+  /* ---------------- Steuerung ---------------- */
+  function toMenu() { showBest(); show("start"); }
+
+  $("btn-seq").addEventListener("click", startSeq);
+  $("btn-random").addEventListener("click", newRound);
   $("btn-again").addEventListener("click", newRound);
+  $("btn-menu").addEventListener("click", toMenu);
+  $("btn-seq-again").addEventListener("click", startSeq);
+  $("btn-seq-menu").addEventListener("click", toMenu);
+  $("btn-seq-stop").addEventListener("click", finishSeq);
+
   $("btn-go").addEventListener("click", function () { if (checked) next(); else check(); });
   $("pad").addEventListener("click", function (e) {
     var b = e.target.closest("button");
     if (b && !b.disabled) press(b.getAttribute("data-k"));
   });
+  $("choices").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b && !b.disabled) pickChoice(b);
+  });
   document.addEventListener("keydown", function (e) {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
-    if (e.key === "Enter") { e.preventDefault(); primary(); return; }
-    if (screens.quiz.hidden) return;
-    if (e.key >= "0" && e.key <= "9" && e.key.length === 1) press(e.key);
-    else if (e.key === "Backspace") { e.preventDefault(); press("del"); }
+    if (!screens.quiz.hidden) {
+      if (e.key === "Enter") { e.preventDefault(); if (checked) next(); else check(); return; }
+      if (e.key >= "0" && e.key <= "9" && e.key.length === 1) press(e.key);
+      else if (e.key === "Backspace") { e.preventDefault(); press("del"); }
+    } else if (!screens.result.hidden && e.key === "Enter") { e.preventDefault(); newRound(); }
+    else if (!screens.seqresult.hidden && e.key === "Enter") { e.preventDefault(); startSeq(); }
   });
 
   showBest();
