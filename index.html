@@ -293,19 +293,18 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   background: var(--surface);
   border: 2px solid var(--edge);
   border-radius: 14px;
-  padding: 8px 4px 6px;
+  padding: 10px 4px 8px;
   text-align: center;
 }
-.levels .ico { display: block; font-size: 1.7rem; line-height: 1.2; }
+.levels .ico { display: block; font-size: 1.8rem; line-height: 1.2; }
 .levels b {
   display: block;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
 }
-.levels span:not(.ico) { font-size: 0.75rem; color: var(--ink-soft); }
 
 .review {
   list-style: none;
@@ -522,7 +521,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     for (var i = 0; i < LEVELS.length; i++) {
       var lv = LEVELS[i];
       if (l[lv.key]) any = true;
-      html += '<div><span class="ico" aria-hidden="true">' + lv.icon + "</span><b>" + l[lv.key] + "</b><span>" + lv.name + "</span></div>";
+      html += '<div title="' + lv.name + '"><span class="ico" aria-hidden="true">' + lv.icon + "</span><b>" + l[lv.key] + "</b></div>";
     }
     $(id).innerHTML = html;
     $(id).hidden = !any;
