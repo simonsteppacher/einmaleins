@@ -287,6 +287,26 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .score .ok b { color: var(--right); }
 .score .no b { color: var(--wrong); }
 
+/* Stufen-Zähler (Feuerwerk, Krone, Daumen, Keimling) */
+.levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.levels div {
+  background: var(--surface);
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  padding: 8px 4px 6px;
+  text-align: center;
+}
+.levels .ico { display: block; font-size: 1.7rem; line-height: 1.2; }
+.levels b {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.levels span:not(.ico) { font-size: 0.75rem; color: var(--ink-soft); }
+
 .review {
   list-style: none;
   margin: 0;
@@ -323,6 +343,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     </div>
     <p id="best" class="best" hidden></p>
     <p id="total-start" class="soft" hidden></p>
+    <div id="levels-start" class="levels" hidden></div>
   </section>
 
   <section id="quiz" hidden>
@@ -378,6 +399,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     </div>
     <p id="record" class="soft"></p>
     <p id="total" class="soft"></p>
+    <div id="levels-result" class="levels" hidden></div>
     <ul id="review" class="review"></ul>
     <button id="btn-again" class="primary" type="button">Noch einmal</button>
     <button id="btn-menu" class="ghost" type="button">Zur Auswahl</button>
@@ -395,6 +417,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
       <div><b id="s-time">0:00</b><span>Zeit</span></div>
     </div>
     <p id="seq-total" class="soft"></p>
+    <div id="levels-seq" class="levels" hidden></div>
     <button id="btn-seq-again" class="primary" type="button">Neue Reihe</button>
     <button id="btn-seq-menu" class="ghost" type="button">Zur Auswahl</button>
   </section>
@@ -455,6 +478,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     var tt = totalText();
     $("total-start").textContent = tt;
     $("total-start").hidden = tt === "";
+    renderLevels("levels-start");
     var b = loadBest();
     if (!b) { $("best").hidden = true; return; }
     $("best").textContent = "Dein bestes Ergebnis (zufällig): " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
@@ -467,10 +491,41 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
      Stufe 3: 1-2 Fehler                 -> Daumen     "Übe fleissig weiter!"
      Stufe 4: 3+ Fehler                  -> kein Bild  "Übung macht den Meister!" */
   function verdict(wrong, ms) {
-    if (wrong === 0 && ms < FAST_MS) return { badge: "", text: "Du bist ein Champion!", fireworks: true };
-    if (wrong === 0) return { badge: "👑", text: "Tolle Leistung! Alles richtig! Noch ein bisschen schneller." };
-    if (wrong <= 2) return { badge: "👍", text: "Übe fleissig weiter!" };
-    return { badge: "", text: "Übung macht den Meister!" };
+    if (wrong === 0 && ms < FAST_MS) return { level: "fire",  badge: "", text: "Du bist ein Champion!", fireworks: true };
+    if (wrong === 0) return { level: "crown", badge: "👑", text: "Tolle Leistung! Alles richtig! Noch ein bisschen schneller." };
+    if (wrong <= 2) return { level: "thumb", badge: "👍", text: "Übe fleissig weiter!" };
+    return { level: "seed", badge: "🌱", text: "Übung macht den Meister!" };
+  }
+
+  /* Zähler je Stufe (wie oft Feuerwerk, Krone, Daumen, Keimling erreicht) */
+  var LEVELS = [
+    { key: "fire",  icon: "✨",         name: "Feuerwerk" },
+    { key: "crown", icon: "👑",   name: "Krone" },
+    { key: "thumb", icon: "👍",   name: "Daumen" },
+    { key: "seed",  icon: "🌱",   name: "Keimling" }
+  ];
+  function loadLevels() {
+    var l = { fire: 0, crown: 0, thumb: 0, seed: 0 };
+    try {
+      var s = JSON.parse(localStorage.getItem("einmaleins-levels"));
+      if (s) for (var k in l) if (typeof s[k] === "number") l[k] = s[k];
+    } catch (e) {}
+    return l;
+  }
+  function addLevel(key) {
+    var l = loadLevels();
+    if (key in l) l[key]++;
+    try { localStorage.setItem("einmaleins-levels", JSON.stringify(l)); } catch (e) {}
+  }
+  function renderLevels(id) {
+    var l = loadLevels(), any = false, html = "";
+    for (var i = 0; i < LEVELS.length; i++) {
+      var lv = LEVELS[i];
+      if (l[lv.key]) any = true;
+      html += '<div><span class="ico" aria-hidden="true">' + lv.icon + "</span><b>" + l[lv.key] + "</b><span>" + lv.name + "</span></div>";
+    }
+    $(id).innerHTML = html;
+    $(id).hidden = !any;
   }
 
   /* Kleines Feuerwerk (Canvas-Overlay, ca. 2.5 s, ohne externe Bibliothek) */
@@ -601,10 +656,12 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("n-wrong").textContent = wrong;
     $("n-time").textContent = fmtTime(elapsed);
     var v = verdict(wrong, elapsed);
+    addLevel(v.level);
     $("badge").textContent = v.badge;
     $("badge").hidden = v.badge === "";
     $("headline").textContent = v.text;
     $("total").textContent = totalText();
+    renderLevels("levels-result");
 
     var best = loadBest();
     var isRecord = !best || right > best.right || (right === best.right && elapsed < best.ms);
@@ -766,10 +823,12 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("s-wrong").textContent = seqErrors;
     $("s-time").textContent = fmtTime(ms);
     var v = complete ? verdict(seqErrors, ms) : { badge: "", text: "Übung beendet." };
+    if (complete) addLevel(v.level);          // abgebrochene Reihen zählen nicht
     $("seq-badge").textContent = v.badge;
     $("seq-badge").hidden = v.badge === "";
     $("seq-headline").textContent = v.text;
     $("seq-total").textContent = totalText();
+    renderLevels("levels-seq");
     show("seqresult");
     $("btn-seq-again").focus();
     if (v.fireworks) fireworks();
