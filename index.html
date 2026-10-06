@@ -351,8 +351,9 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
       <div id="dots" class="dots" aria-hidden="true"></div>
     </div>
     <div class="task" aria-live="polite">
-      <span id="question">1 · 1 =</span>
+      <span id="q-left">1 · 1 =</span>
       <span id="answer" class="answer empty">?</span>
+      <span id="q-right"></span>
     </div>
     <p id="feedback" class="feedback" aria-live="polite"></p>
     <div id="pad" class="pad">
@@ -427,7 +428,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   var TOTAL = 10;
   var ROWS_MAX = 10;   // Reihen 1..10
   var MULT_MAX = 10;   // jeweils bis ×10 (1er: 0..10, 6er: 0..60, 10er: 0..100)
-  var FAST_MS = 80000; // unter 80 Sekunden = Champion (Feuerwerk)
+  var FAST_MS = 70000; // unter 70 Sekunden = Champion (Feuerwerk)
   var $ = function (id) { return document.getElementById(id); };
   var screens = {
     start: $("start"), quiz: $("quiz"), seqquiz: $("seqquiz"),
@@ -485,14 +486,14 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   }
 
   /* Belohnung: gleiche Regel für beide Modi
-     Stufe 1: 0 Fehler und unter 80 s  -> Feuerwerk  "Du bist ein Champion!"
-     Stufe 2: 0 Fehler, 80 s oder mehr  -> Krone      "Tolle Leistung! Alles richtig! Noch ein bisschen schneller."
-     Stufe 3: 1-2 Fehler                 -> Daumen     "Übe fleissig weiter!"
-     Stufe 4: 3+ Fehler                  -> kein Bild  "Übung macht den Meister!" */
+     Stufe 1: 0 Fehler und unter 70 s  -> Feuerwerk  "Du bist ein Champion!"
+     Stufe 2: 0 Fehler, 70 s oder mehr  -> Krone      "Tolle Leistung! Alles richtig! Noch ein bisschen schneller."
+     Stufe 3: genau 1 Fehler             -> Daumen     "Übe fleissig weiter!"
+     Stufe 4: 2+ Fehler                  -> Keimling   "Übung macht den Meister!" */
   function verdict(wrong, ms) {
     if (wrong === 0 && ms < FAST_MS) return { level: "fire",  badge: "", text: "Du bist ein Champion!", fireworks: true };
     if (wrong === 0) return { level: "crown", badge: "👑", text: "Tolle Leistung! Alles richtig! Noch ein bisschen schneller." };
-    if (wrong <= 2) return { level: "thumb", badge: "👍", text: "Übe fleissig weiter!" };
+    if (wrong === 1) return { level: "thumb", badge: "👍", text: "Übe fleissig weiter!" };
     return { level: "seed", badge: "🌱", text: "Übung macht den Meister!" };
   }
 
@@ -584,6 +585,8 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
       var t = all[i]; all[i] = all[j]; all[j] = t;
     }
     tasks = all.slice(0, TOTAL);
+    // Fragezeichen zufällig beim Produkt (0), beim ersten (1) oder zweiten Faktor (2)
+    for (var m = 0; m < tasks.length; m++) tasks[m].miss = Math.floor(Math.random() * 3);
     idx = 0;
     elapsed = 0;
     var dots = "";
@@ -607,7 +610,10 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     input = "";
     checked = false;
     $("count").textContent = "Aufgabe " + (idx + 1) + " von " + TOTAL;
-    $("question").textContent = t.a + " · " + t.b + " =";
+    var P = t.a * t.b;
+    if (t.miss === 1)      { $("q-left").textContent = "";              $("q-right").textContent = "· " + t.b + " = " + P; }
+    else if (t.miss === 2) { $("q-left").textContent = t.a + " ·";      $("q-right").textContent = "= " + P; }
+    else                   { $("q-left").textContent = t.a + " · " + t.b + " ="; $("q-right").textContent = ""; }
     $("feedback").className = "feedback";
     $("feedback").textContent = "";
     $("btn-go").textContent = "Prüfen";
@@ -628,7 +634,8 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     var t = tasks[idx];
     elapsed += Date.now() - taskStart;
     t.given = parseInt(input, 10);
-    t.ok = t.given === t.a * t.b;
+    t.expect = t.miss === 1 ? t.a : (t.miss === 2 ? t.b : t.a * t.b);   // gesuchte Zahl
+    t.ok = t.given === t.expect;
     checked = true;
     addTotal(t.ok);
     setPad(false);
@@ -671,11 +678,16 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
     var html = "";
     for (var j = 0; j < tasks.length; j++) {
-      var t = tasks[j];
-      var q = t.a + " · " + t.b + " = ";
-      html += t.ok
-        ? '<li class="ok">✓ ' + q + (t.a * t.b) + "</li>"
-        : '<li class="no">✗ ' + q + "<s>" + t.given + "</s> <b>" + (t.a * t.b) + "</b></li>";
+      var t = tasks[j], P = t.a * t.b;
+      if (t.ok) {
+        html += '<li class="ok">✓ ' + t.a + " · " + t.b + " = " + P + "</li>";
+      } else {
+        var fix = "<s>" + t.given + "</s> <b>" + t.expect + "</b>";   // falsche Eingabe durchgestrichen, richtige Zahl fett
+        var line = t.miss === 1 ? fix + " · " + t.b + " = " + P
+                 : t.miss === 2 ? t.a + " · " + fix + " = " + P
+                 : t.a + " · " + t.b + " = " + fix;
+        html += '<li class="no">✗ ' + line + "</li>";
+      }
     }
     $("review").innerHTML = html;
     show("result");
