@@ -47,8 +47,9 @@
   color-scheme: dark;
 }
 
-html, body { height: 100%; }
+html { height: 100%; }
 body {
+  min-height: 100%;
   background-color: var(--paper);
   background-image:
     linear-gradient(var(--grid) 1px, transparent 1px),
@@ -71,7 +72,7 @@ main {
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  margin-block: auto;
 }
 section { display: flex; flex-direction: column; gap: 20px; }
 

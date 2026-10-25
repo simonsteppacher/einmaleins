@@ -47,8 +47,9 @@
   color-scheme: dark;
 }
 
-html, body { height: 100%; }
+html { height: 100%; }
 body {
+  min-height: 100%;
   background-color: var(--paper);
   background-image:
     linear-gradient(var(--grid) 1px, transparent 1px),
@@ -66,7 +67,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 *, *::before, *::after { box-sizing: inherit; }
-main { width: 100%; max-width: 460px; display: flex; flex-direction: column; justify-content: center; }
+main { width: 100%; max-width: 460px; display: flex; flex-direction: column; margin-block: auto; }
 section { display: flex; flex-direction: column; gap: 16px; }
 
 h1, h2 { font-family: var(--font-display); font-weight: 800; line-height: 1.05; margin: 0; text-wrap: balance; }
@@ -118,7 +119,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   position: relative; width: 100%; aspect-ratio: 4 / 3; max-width: 100%;
   background: var(--surface); border: 3px solid var(--ink); border-radius: 16px; overflow: hidden;
 }
-.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .photo .loading {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; color: var(--ink-soft);
@@ -154,6 +155,25 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .score .ok b { color: var(--right); }
 .score .no b { color: var(--wrong); }
 
+/* Stufen-Zähler (Feuerwerk, Krone, Daumen, Keimling) */
+.levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.levels div {
+  background: var(--surface);
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  padding: 10px 4px 8px;
+  text-align: center;
+}
+.levels .ico { display: block; font-size: 1.8rem; line-height: 1.2; }
+.levels b {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
 .review { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 6px; font-size: 1rem; }
 .review li { display: flex; align-items: center; gap: 10px; padding: 4px 8px; border-radius: 10px; }
 .review li.ok { color: var(--right); }
@@ -183,6 +203,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     <p id="best-common" class="best" hidden></p>
     <p id="best-all" class="best" hidden></p>
     <p id="total-start" class="soft" hidden></p>
+    <div id="levels-start" class="levels" hidden></div>
     <p class="credit">Fotos: Wikimedia Commons, Nachweis jeweils unter dem Bild.</p>
   </section>
 
@@ -214,6 +235,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     </div>
     <p id="record" class="soft"></p>
     <p id="total" class="soft"></p>
+    <div id="levels-result" class="levels" hidden></div>
     <ul id="review" class="review"></ul>
     <button id="btn-again" class="primary" type="button">Noch einmal</button>
     <button id="btn-menu" class="ghost" type="button">Zur Auswahl</button>
@@ -229,7 +251,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   function labelOf(name) { for (var i = 0; i < BIRDS.length; i++) if (BIRDS[i][0] === name) return BIRDS[i].label; return name; }
   var TOTAL = 10;       // Vögel pro Runde
   var CHOICES = 9;      // Namen zur Auswahl
-  var FAST_MS = 60000;  // unter 60 s und alles richtig = Krone
+  var FAST_MS = 70000;  // unter 70 s und alles richtig = Feuerwerk (wie im 1x1 Trainer)
   var $ = function (id) { return document.getElementById(id); };
   var screens = { start: $("start"), quiz: $("quiz"), result: $("result") };
 
@@ -271,17 +293,100 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   function showBest() {
     var tt = totalText();
     $("total-start").textContent = tt; $("total-start").hidden = tt === "";
+    renderLevels("levels-start");
     [["common", "Häufige Vögel"], ["all", "Alle Vögel"]].forEach(function (m) {
       var b = loadBest(m[0]), el = $("best-" + m[0]);
       el.hidden = !b;
       if (b) el.textContent = "Bestes Ergebnis (" + m[1] + "): " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
     });
   }
+  /* Belohnung: gleiche Stufen wie im 1x1 Trainer
+     Stufe 1: 0 Fehler und unter 70 s  -> Feuerwerk  "Du bist ein Champion!"
+     Stufe 2: 0 Fehler, 70 s oder mehr  -> Krone      "Tolle Leistung! Alles richtig! Noch ein bisschen schneller."
+     Stufe 3: genau 1 Fehler             -> Daumen     "Übe fleissig weiter!"
+     Stufe 4: 2+ Fehler                  -> Keimling   "Übung macht den Meister!" */
   function verdict(wrong, ms) {
-    if (wrong === 0 && ms < FAST_MS) return { badge: "👑", text: "Tolle Leistung! Du kennst die Vögel!" };
-    if (wrong === 0) return { badge: "👍", text: "Alles richtig. Du kannst das noch ein bisschen schneller!" };
-    if (wrong <= 2) return { badge: "", text: "Übe fleissig weiter!" };
-    return { badge: "", text: "Übung macht den Meister!" };
+    if (wrong === 0 && ms < FAST_MS) return { level: "fire",  badge: "", text: "Du bist ein Champion!", fireworks: true };
+    if (wrong === 0) return { level: "crown", badge: "👑", text: "Tolle Leistung! Alles richtig! Noch ein bisschen schneller." };
+    if (wrong === 1) return { level: "thumb", badge: "👍", text: "Übe fleissig weiter!" };
+    return { level: "seed", badge: "🌱", text: "Übung macht den Meister!" };
+  }
+
+  /* Zähler je Stufe (wie oft Feuerwerk, Krone, Daumen, Keimling erreicht) */
+  var LEVELS = [
+    { key: "fire",  icon: "✨",         name: "Feuerwerk" },
+    { key: "crown", icon: "👑",   name: "Krone" },
+    { key: "thumb", icon: "👍",   name: "Daumen" },
+    { key: "seed",  icon: "🌱",   name: "Keimling" }
+  ];
+  function loadLevels() {
+    var l = { fire: 0, crown: 0, thumb: 0, seed: 0 };
+    try {
+      var s = JSON.parse(localStorage.getItem("vogel-levels"));
+      if (s) for (var k in l) if (typeof s[k] === "number") l[k] = s[k];
+    } catch (e) {}
+    return l;
+  }
+  function addLevel(key) {
+    var l = loadLevels();
+    if (key in l) l[key]++;
+    try { localStorage.setItem("vogel-levels", JSON.stringify(l)); } catch (e) {}
+  }
+  function renderLevels(id) {
+    var l = loadLevels(), any = false, html = "";
+    for (var i = 0; i < LEVELS.length; i++) {
+      var lv = LEVELS[i];
+      if (l[lv.key]) any = true;
+      html += '<div title="' + lv.name + '"><span class="ico" aria-hidden="true">' + lv.icon + "</span><b>" + l[lv.key] + "</b></div>";
+    }
+    $(id).innerHTML = html;
+    $(id).hidden = !any;
+  }
+
+  /* Kleines Feuerwerk (Canvas-Overlay, ca. 2.5 s, ohne externe Bibliothek) */
+  function fireworks() {
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var c = document.createElement("canvas");
+      c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999";
+      document.body.appendChild(c);
+      var ctx = c.getContext("2d");
+      var dpr = window.devicePixelRatio || 1;
+      function size() { c.width = window.innerWidth * dpr; c.height = window.innerHeight * dpr; }
+      size();
+      var parts = [], colors = ["#ffd166", "#ff5d8f", "#06d6a0", "#4cc9f0", "#ff9f1c", "#ffffff", "#c77dff"];
+      function burst(x, y) {
+        var col = colors[Math.floor(Math.random() * colors.length)];
+        for (var i = 0; i < 90; i++) {
+          var a = Math.random() * Math.PI * 2, s = (2.5 + Math.random() * 5.5) * dpr;
+          parts.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1,
+                       col: Math.random() < 0.7 ? col : "#ffffff", r: (2.5 + Math.random() * 3) * dpr });
+        }
+      }
+      var t0 = Date.now(), n = 0;
+      burst(0.5 * c.width, 0.25 * c.height);          // erste Salve sofort in der Mitte
+      var timer = setInterval(function () {
+        if (n++ < 8) burst((0.15 + Math.random() * 0.7) * c.width, (0.12 + Math.random() * 0.45) * c.height);
+        else clearInterval(timer);
+      }, 330);
+      function frame() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i];
+          p.x += p.vx; p.y += p.vy; p.vy += 0.05 * dpr; p.vx *= 0.985; p.vy *= 0.985; p.life -= 0.013;
+          if (p.life <= 0) { parts.splice(i, 1); continue; }
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.fillStyle = p.col;
+          ctx.shadowBlur = 8 * dpr; ctx.shadowColor = p.col;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (0.6 + 0.4 * p.life), 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+        if (Date.now() - t0 < 3600 || parts.length) requestAnimationFrame(frame);
+        else if (c.parentNode) c.parentNode.removeChild(c);
+      }
+      requestAnimationFrame(frame);
+    } catch (e) {}
   }
 
   /* ---------- Runde ---------- */
@@ -296,6 +401,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     for (var d = 0; d < TOTAL; d++) dots += '<span class="dot"></span>';
     $("dots").innerHTML = dots;
     show("quiz");
+    window.scrollTo(0, 0);
     showTask();
   }
 
@@ -313,7 +419,13 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("loading").textContent = "Foto lädt …";
     img.removeAttribute("src");
     img.hidden = true;
-    img.onload = function () { $("loading").hidden = true; img.hidden = false; };
+    img.parentNode.style.aspectRatio = "4 / 3";
+    img.onload = function () {
+      // Rahmen dem Foto anpassen: Querformat bis 4:3, Hochformat als Quadrat (nichts wird abgeschnitten)
+      var r = img.naturalWidth / img.naturalHeight;
+      img.parentNode.style.aspectRatio = String(Math.max(1, Math.min(4 / 3, r)));
+      $("loading").hidden = true; img.hidden = false;
+    };
     img.onerror = function () { $("loading").textContent = "Foto konnte nicht geladen werden"; };
     img.src = imgUrl(t[1], 900);
     $("credit").innerHTML = "Foto: " + (t[2] ? esc(t[2]) + ", " : "") + esc(t[3]) +
@@ -363,9 +475,11 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     var wrong = TOTAL - right;
     $("n-right").textContent = right; $("n-wrong").textContent = wrong; $("n-time").textContent = fmtTime(elapsed);
     var v = verdict(wrong, elapsed);
+    addLevel(v.level);
     $("badge").textContent = v.badge; $("badge").hidden = v.badge === "";
     $("headline").textContent = v.text;
     $("total").textContent = totalText();
+    renderLevels("levels-result");
 
     var best = loadBest(mode);
     var isRecord = !best || right > best.right || (right === best.right && elapsed < best.ms);
@@ -383,6 +497,8 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("review").innerHTML = html;
     show("result");
     $("btn-again").focus();
+    window.scrollTo(0, 0);
+    if (v.fireworks) fireworks();
   }
 
   function stopRound() {
@@ -393,6 +509,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     $("n-right").textContent = right; $("n-wrong").textContent = tasks.length - right; $("n-time").textContent = fmtTime(elapsed);
     $("badge").hidden = true; $("headline").textContent = "Übung beendet.";
     $("record").textContent = ""; $("total").textContent = totalText();
+    renderLevels("levels-result");
     var html = "";
     tasks.forEach(function (t) {
       var pic = '<img src="' + imgUrl(t[1], 160) + '" alt="">';
@@ -401,6 +518,7 @@ button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
     });
     $("review").innerHTML = html;
     show("result");
+    window.scrollTo(0, 0);
   }
 
   function toMenu() { showBest(); show("start"); }
