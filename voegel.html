@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>Johannas Vogel-Trainer</title>
+<link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFU0lEQVR42u3dv27bVhiGcYoginQJGiBzO/UK2o69gP5ZDLR7Li17DXRx7QvoGOcKPNWzARdeUmRxh4KAICiqRB2S3/nO71kDRdTRw9fvIcVzNl0hnp+fv+i6rttsNn8f+5ovf/z2uZuJv/5496rruu6rn7577ALQ0vHcX99ulvBnH8NSAzinvIjFvu96iuThhCYx9rkwp9wDkbGW3HOI3ZMZa4pd2peexIjYuVcTmsyIRE9mZErrgcjINGnsyYxMad2TGZmk7smMTFL3ZEYmqXsyI5PUvWFCJnrpjEwp3ZMZmaTuyYxMUm/GJwWA9B0aqI1NqbrhGT7Hs8bx7P7eo9edkalLqxzI2aGlMzKktIRGzoQG0gitbiBL7ZDQUDkAQgOEBk4U2oQQmSaGEhoqB0BogNAAoUFogNAAoQFCA4QGoQFCA4QGCA0QGoQGCA0QGiA0QGi0wWAIcnJ3eXPw3z9+eHj87PPXrwiNKgX+lNTbr/v6lx+qHwd7rFTOxw8PxVfgrzm5CU3kVGJvSi00Yw+R5Y5nSr2YylI1pNT46NDJe3Kp96ylX7tsR+Yq3p/QZG5SakKTOZXUhCZzKqkJjVQQWjqnOj5CkyXVcRIaqXBjpaHU23dz5Nz3u7u8CXXTRUI3wqeky/ALO0I3ls7/J+25Ukfq0oRuNJmzJjWhoXIAhEY1PfQYnq4uQh6/y3YoIvXLn3+X0IiT/Ocm7NPVRff+zYvu/ZsXEhrzS33oKkbpurAr9Tdv/5HQWCapl+i+Y3Ivkd4SmtSLsi31HMlN6IXkGJcdyLawS8lqQujKU622S3Vz8vDb94/bkk9Nb0KTLHx6nyI3oUkcEglN4qZFblZoIseUeFwKrHu70lJg0Z5UIHJ7aVw8oWuQmsj5JS5aOaIKs8Rys4gh8TaTb33vJnMkgaRyHJGXlLn4pHDc4mDNGkLmdtJ4dqHX7NZEblvkkbO2pDimZiyxrYG+vDxPVxfd61//DLdlxexCzy01mdch6v4rZ+2xcuqf+dI1RM1YhznqZKk9VvolP1hJAcmcR+aSLP7Eyt3lTZH11EDmEEKTksxzsuqPk6ZsGeZEIHLIhJ4iKZnJHDqhz01rELl4Qi91KU46LyNy7YEScl2OEldC0CahF5oZpSZ3rLkMoRsfZBAaWE9oVybUDgkNEBogNAi9Phku8mN5hogiA6sndIlHcsiMFAlNZKQQmshIMylsbQ/qWqh9vAcDBpWDyGihcuy70lHierKTQeiE6NBERAqh57jL5+SQzqsITTykrRxOFuNKaFIbz5aEBtIJLaXLEHWN5yYTmtRkTlc5SG3cdjlrS4oo2JZCMqeaFGb/kozTCQl9zh4r25TaI+NcrLR0XMWI8n2VPp6+hS+PzO3Q+xLJnIkh6wcb+2KLE8aWT+ihlS+3hW7tL1MDQrcgNpEbFDqj2EQm9F4ZapKbxISuXm4SE7qYPGsITmBCp+jcRCZ0NVVg99auW/Tz4IkVEBogNEBogNAgNEBogNAAoYFjhb6/vt0YBmTg/vp2I6GhcgCEBggNnMYwlulSKyhFp+TPNk/5v8blFA69Zuqx+R31fw5LaKgcQBVCux6N2uuGhEbOSeG26dknh2tNoKItX5sxnSU08k8KdWnUms5dl2SPFUDlQEoO1otTJohZ9+xwPPGO51At7qe+EIjSm1UOtNuhpTRqSeejE5rUqEHmkyoHqRFd5pM7NKkRWeZJk0JSI6rMXTdxwfPxjVp5ygXxRZ6c0NIaUWU+W2hSIxp9hLMKUjmU0OTGVFdK+zLMecaZNGLp0BuWOnByk3iJ9xnW/EAkJ29p/gUaMKt9jHV25wAAAABJRU5ErkJggg==">
+<meta name="apple-mobile-web-app-title" content="Vogel-Trainer">
+<meta name="theme-color" content="#1e4a34">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: Naturkunde-Heft auf Häuschenpapier (hell) bzw. Waldgrün (dunkel); schmale Spalte, oben das Foto, darunter 3×3 Namenskärtchen. */
+:root {
+  --paper: #f7f8f1;
+  --grid: #d6e2d2;
+  --ink: #1e4a34;
+  --ink-soft: #5f7a69;
+  --surface: #ffffff;
+  --edge: #b9cbbd;
+  --key: #ffffff;
+  --key-press: #e4eee6;
+  --primary: #1e4a34;
+  --on-primary: #ffffff;
+  --right: #1f8a4c;
+  --right-bg: #dff3e6;
+  --wrong: #c8372d;
+  --wrong-bg: #fbe3e0;
+  --font-display: "Baloo 2", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #16302a; --grid: #23423a; --ink: #f3f0e4; --ink-soft: #aebfb2;
+    --surface: #1f3d35; --edge: #3a5c50; --key: #244840; --key-press: #315c52;
+    --primary: #f3f0e4; --on-primary: #16302a;
+    --right: #8fe0a8; --right-bg: #23543c; --wrong: #ffa69c; --wrong-bg: #5a3230;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #16302a; --grid: #23423a; --ink: #f3f0e4; --ink-soft: #aebfb2;
+  --surface: #1f3d35; --edge: #3a5c50; --key: #244840; --key-press: #315c52;
+  --primary: #f3f0e4; --on-primary: #16302a;
+  --right: #8fe0a8; --right-bg: #23543c; --wrong: #ffa69c; --wrong-bg: #5a3230;
+  color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  padding-inline: 16px;
+  padding-block: 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+*, *::before, *::after { box-sizing: inherit; }
+main { width: 100%; max-width: 460px; display: flex; flex-direction: column; justify-content: center; }
+section { display: flex; flex-direction: column; gap: 16px; }
+
+h1, h2 { font-family: var(--font-display); font-weight: 800; line-height: 1.05; margin: 0; text-wrap: balance; }
+h1 { font-size: 2.6rem; }
+h2 { font-size: 1.8rem; }
+p { margin: 0; }
+.soft { color: var(--ink-soft); }
+.back { font-weight: 700; color: var(--ink-soft); text-decoration: none; }
+.back:hover { text-decoration: underline; }
+a { color: inherit; }
+
+button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; }
+button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+.primary {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+  background: var(--primary); color: var(--on-primary);
+  border: 0; border-radius: 16px; padding: 14px 20px; width: 100%;
+}
+.primary:disabled { opacity: 0.35; cursor: default; }
+.primary:active:not(:disabled) { transform: translateY(2px); }
+.ghost {
+  font-weight: 700; font-size: 1rem; background: transparent; color: var(--ink-soft);
+  border: 2px solid var(--edge); border-radius: 12px; padding: 10px 14px; width: 100%;
+}
+.ghost:active { transform: translateY(1px); }
+
+/* Startauswahl */
+.modes { display: flex; flex-direction: column; gap: 12px; }
+.mode {
+  font-family: var(--font-display); font-weight: 800; text-align: center;
+  background: var(--surface); color: var(--ink);
+  border: 3px solid var(--primary); border-radius: 16px; padding: 16px 18px 14px; width: 100%;
+}
+.mode:active { transform: translateY(2px); }
+.mode b { display: block; font-size: 1.5rem; line-height: 1.1; }
+.mode span { display: block; font-family: var(--font-body); font-weight: 400; font-size: 0.95rem; color: var(--ink-soft); }
+.best { background: var(--surface); border: 2px dashed var(--edge); border-radius: 14px; padding: 10px 14px; }
+
+/* Quiz */
+.progress { display: flex; flex-direction: column; gap: 8px; }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.dot { height: 10px; border-radius: 5px; background: var(--surface); border: 2px solid var(--edge); }
+.dot.now { border-color: var(--ink); }
+.dot.ok { background: var(--right); border-color: var(--right); }
+.dot.no { background: var(--wrong); border-color: var(--wrong); }
+
+.photo {
+  position: relative; width: 100%; aspect-ratio: 4 / 3; max-width: 100%;
+  background: var(--surface); border: 3px solid var(--ink); border-radius: 16px; overflow: hidden;
+}
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo .loading {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; color: var(--ink-soft);
+}
+.credit { font-size: 0.72rem; color: var(--ink-soft); text-align: right; line-height: 1.3; }
+.credit a { color: inherit; }
+
+.feedback { min-height: 2.6em; text-align: center; font-weight: 700; font-size: 1.1rem; }
+.feedback.ok { color: var(--right); }
+.feedback.no { color: var(--wrong); }
+.feedback .solution { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--ink); }
+
+.choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.choices button {
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.1;
+  min-height: 3.6em; padding: 8px 4px 6px; hyphens: manual; overflow-wrap: anywhere;
+  background: var(--key); border: 2px solid var(--edge); border-bottom-width: 4px; border-radius: 12px;
+}
+.choices button.s { font-size: 0.9rem; }
+.choices button:active:not(:disabled) { background: var(--key-press); transform: translateY(2px); border-bottom-width: 2px; }
+.choices button.ok { background: var(--right-bg); border-color: var(--right); color: var(--right); }
+.choices button.no { background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
+.choices button:disabled { cursor: default; }
+.choices button:disabled:not(.ok):not(.no) { opacity: 0.45; }
+
+/* Ergebnis */
+.verdict { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.badge { font-size: 5rem; line-height: 1.1; }
+.score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.score div { background: var(--surface); border: 2px solid var(--edge); border-radius: 14px; padding: 10px 6px 8px; text-align: center; }
+.score b { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.score span { font-size: 0.85rem; color: var(--ink-soft); }
+.score .ok b { color: var(--right); }
+.score .no b { color: var(--wrong); }
+
+.review { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 6px; font-size: 1rem; }
+.review li { display: flex; align-items: center; gap: 10px; padding: 4px 8px; border-radius: 10px; }
+.review li.ok { color: var(--right); }
+.review li.no { background: var(--wrong-bg); color: var(--wrong); }
+.review img { width: 56px; height: 42px; object-fit: cover; border-radius: 6px; flex: none; background: var(--surface); }
+.review s { opacity: 0.8; }
+.review b { color: var(--ink); }
+
+@media (max-width: 360px) { .choices button { font-size: 0.9rem; } h1 { font-size: 2.2rem; } }
+@media (prefers-reduced-motion: no-preference) {
+  .choices button.ok { animation: pop 0.25s ease-out; }
+  @keyframes pop { 50% { transform: scale(1.08); } }
+}
+</style>
+</head>
+<body>
+
+<main>
+  <section id="start">
+    <a class="back" href="index.html">← Johannas Lernseite</a>
+    <h1>Johannas Vogel-Trainer</h1>
+    <p>Du siehst ein Foto und wählst aus 9 Namen den richtigen Vogel. 10 Vögel pro Runde, nach jedem Foto siehst du die Lösung.</p>
+    <div class="modes">
+      <button id="btn-common" class="mode" type="button"><b>Häufige Vögel</b><span>40 Arten aus Garten, Wald und Schule</span></button>
+      <button id="btn-all" class="mode" type="button"><b>Alle Vögel</b><span>70 Arten, auch die seltenen</span></button>
+    </div>
+    <p id="best-common" class="best" hidden></p>
+    <p id="best-all" class="best" hidden></p>
+    <p id="total-start" class="soft" hidden></p>
+    <p class="credit">Fotos: Wikimedia Commons, Nachweis jeweils unter dem Bild.</p>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="progress">
+      <p id="count" class="soft">Vogel 1 von 10</p>
+      <div id="dots" class="dots" aria-hidden="true"></div>
+    </div>
+    <div class="photo">
+      <img id="photo" alt="">
+      <div id="loading" class="loading">Foto lädt …</div>
+    </div>
+    <p id="credit" class="credit"></p>
+    <p id="feedback" class="feedback" aria-live="polite">Welcher Vogel ist das?</p>
+    <div id="choices" class="choices"></div>
+    <button id="btn-go" class="primary" type="button" hidden>Weiter</button>
+    <button id="btn-stop" class="ghost" type="button">Abbrechen</button>
+  </section>
+
+  <section id="result" hidden>
+    <div class="verdict">
+      <div id="badge" class="badge" aria-hidden="true" hidden></div>
+      <h2 id="headline">Geschafft!</h2>
+    </div>
+    <div class="score">
+      <div class="ok"><b id="n-right">0</b><span>richtig</span></div>
+      <div class="no"><b id="n-wrong">0</b><span>falsch</span></div>
+      <div><b id="n-time">0:00</b><span>Zeit</span></div>
+    </div>
+    <p id="record" class="soft"></p>
+    <p id="total" class="soft"></p>
+    <ul id="review" class="review"></ul>
+    <button id="btn-again" class="primary" type="button">Noch einmal</button>
+    <button id="btn-menu" class="ghost" type="button">Zur Auswahl</button>
+  </section>
+</main>
+
+<script>
+(function () {
+  // [Name, Commons-Datei, Fotograf, Lizenz, häufig]
+  var BIRDS = [["Amsel", "Common_Blackbird.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Haus|sperling (Spatz)", "House_sparrow_male_in_Prospect_Park_(53532).jpg", "Rhododendrites", "CC BY-SA 4.0", 1], ["Kohl|meise", "Parus_major_Luc_Viatour.jpg", "Luc Viatour", "CC BY-SA 2.0", 1], ["Blau|meise", "Eurasian_blue_tit_Lancashire.jpg", "Francis Franklin", "CC BY-SA 3.0", 1], ["Rot|kehlchen", "Robin_(9509442456).jpg", "Jacob Spinks", "CC BY 2.0", 1], ["Buch|fink", "Fringilla_coelebs_(chaffinch),_male.jpg", "MichaelMaggs", "CC BY-SA 2.5", 1], ["Elster", "01-Magpie.jpg", "diginatur", "CC BY-SA 3.0", 1], ["Raben|krähe", "Carrion_crow_2022_04_05_05_01.jpg", "Alexis Lours", "CC BY 4.0", 1], ["Rot|milan", "Milvus_milvus_R(ThKraft).jpg", "Thomas Kraft", "CC BY-SA 2.5", 1], ["Haus|rot|schwanz", "Männlicher_Hausrotschwanz_by_Mag._Christian_Bechter,_Vorarlberg.jpg", "Christian Bechter", "CC BY-SA 3.0 at", 1], ["Star", "Sturnus_vulgaris_2_(Marek_Szczepanek).jpg", "Marek Szczepanek", "CC BY-SA 3.0", 1], ["Ringel|taube", "Columba_palumbus_1_(Marek_Szczepanek).jpg", "Marek Szczepanek", "CC BY-SA 3.0", 1], ["Stock|ente", "Mallard_male_female.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Bach|stelze", "Bachstelze_Motacilla_alba.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Stieglitz (Distel|fink)", "12_bis_13_Zentimeter_Körperlänge_erreicht_der_Stieglitz_(Distelfink)._13.jpg", "Holger Uwe Schmitt", "CC BY-SA 4.0", 1], ["Grün|fink", "Greenfinch.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Mäuse|bussard", "Buteo_Buteo.jpg", "Morbakka", "CC BY 4.0", 1], ["Turm|falke", "Common_kestrel_falco_tinnunculus.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Mönchs|gras|mücke", "Sylvia_atricapilla_male_2.jpg", "Jakub Stančo", "CC BY-SA 3.0", 0], ["Zilpzalp", "Chiffchaff_-_Phylloscopus_collybita.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Kleiber", "Kleiber_vertikal_klassisch_nah.jpg", "Tehgnz1", "CC BY-SA 4.0", 1], ["Eichel|häher", "Eichelhäher_im_Gebüsch.jpg", "Markus Beck", "CC BY-SA 4.0", 1], ["Bunt|specht", "Большая_пёстрая_дятлиха,_Усынинская_поляна.jpg", "Dion Art", "CC BY-SA 4.0", 1], ["Grün|specht", "03_vgrue-10-11.jpg", "Hans-Jörg Hellwig", "CC BY-SA 3.0", 0], ["Schwarz|specht", "Schwarzspecht.jpg", "Steffen Hannert", "Copyrighted free use", 1], ["Rauch|schwalbe", "Rauchschwalbe_Hirundo_rustica.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Mehl|schwalbe", "Mehlschwalbe_Delichon_urbicum.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Mauer|segler", "Apus_apus_-Barcelona,_Spain-8_(1).jpg", "pau.artigas", "CC BY-SA 2.0", 0], ["Höcker|schwan", "Mute.swan.cygnets.750pix.jpg", "", "Public domain", 1], ["Bläss|huhn", "Fulica_atra_on_ice.jpg", "Philippe Amelant", "CC BY-SA 3.0", 0], ["Grau|reiher", "Grey_Heron,_Ardea_cinerea,_at_Pilanesberg_National_Park,_Northwest_Province,_South_Africa_(28569532395).jpg", "Derek Keats", "CC BY 2.0", 1], ["Weiss|storch", "Ciconia_ciconia_(aka).jpg", "André Karwath", "CC BY-SA 2.5", 1], ["Lach|möwe", "Lachmöwe_Chroicocephalus_ridibundus.jpg", "Andreas Trepte", "CC BY-SA 2.5", 1], ["Türken|taube", "Türkentaube_im_Flug_beim_Nestbau.jpg", "Joefrei", "CC BY-SA 3.0", 0], ["Dohle", "Jackdaw_(7538518858).jpg", "nottsexminer", "CC BY-SA 2.0", 0], ["Kolkrabe", "Corvus_corax_clarionensis,_Point_Reyes_National_Seashore.jpg", "Frank Schulenburg", "CC BY-SA 4.0", 0], ["Zaun|könig", "Eurasian_wren_(Troglodytes_troglodytes).jpg", "Alexis Lours", "CC BY 4.0", 1], ["Hecken|braunelle", "20_Gramm_wiegt_im_Durchschnitt_eine_Heckenbraunelle._04.jpg", "Holger Uwe Schmitt", "CC BY-SA 4.0", 0], ["Gimpel", "Bullfinch_male.jpg", "Francis Franklin", "CC BY-SA 3.0", 1], ["Kern|beisser", "16,5_bis_18_cm_ist_die_Körperlänge_des_Kernbeißers._07.jpg", "Holger Uwe Schmitt", "CC BY-SA 4.0", 1], ["Gold|ammer", "Goldammer_EO5P7899-2.jpg", "Frank Liebig", "CC BY-SA 3.0 de", 1], ["Feld|sperling", "Tree-Sparrow-2009-16-02.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Sing|drossel", "Song_Thrush_Turdus_philomelos.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Wacholder|drossel", "Turdus_pilaris_no.JPG", "Arnstein Rønning", "CC BY-SA 3.0", 0], ["Schwanz|meise", "Long-tailed_Tit_Aegithalos_caudatus.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Tannen|meise", "Parus_ater_2_(Marek_Szczepanek).jpg", "Marek Szczepanek", "CC BY-SA 3.0", 0], ["Sumpf|meise", "Sumpfmeise1.jpg", "Steffen Hannert", "Copyrighted free use", 0], ["Eis|vogel", "Ein_Eisvogel_im_Schwebflug.jpg", "Joefrei", "CC BY-SA 3.0", 1], ["Alpen|dohle", "Alpine_Chough_(Pyrrhocorax_graculus)_(5).JPG", "Ken Billington", "CC BY-SA 3.0", 0], ["Stein|adler", "015_Wild_Golden_Eagle_in_flight_at_Pfyn-Finges_(Switzerland)_Photo_by_Giles_Laurent.jpg", "Giles Laurent", "CC BY-SA 4.0", 1], ["Kuckuck", "Kägu_õunapuul.jpg", "Locaguapa", "CC BY-SA 3.0", 1], ["Nachti|gall", "Luscinia_megarhynchos_vogelartinfo_chris_romeiks_CHR4443.jpg", "Vogelartinfo", "GFDL 1.2", 1], ["Wachtel", "Quaglia.jpg", "Raniero Massoli Novelli", "CC BY 2.0", 1], ["Wald|laub|sänger", "Flickr_-_Rainbirder_-_Wood_Warbler_(Phylloscopus_sibilatrix).jpg", "Steve Garvie", "CC BY-SA 2.0", 0], ["Teich|rohr|sänger", "PleidelsheimerWiesentalTeichrohrsaenger.jpg", "Jürgen Freisinger", "CC BY 3.0", 0], ["Girlitz", "Girlitz_Serinus_serinus.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Winter|gold|hähnchen", "Goldcrest_1.jpg", "Francis C. Franklin", "CC BY-SA 3.0", 0], ["Hauben|taucher", "Great_Crested_Grebe_(Podiceps_cristatus)_(26735133762).jpg", "Bernard Dupont", "CC BY-SA 2.0", 0], ["Strauss", "Struthio_camelus_-_Etosha_2014_(1).jpg", "Yathin S Krishnappa", "CC BY-SA 4.0", 1], ["Pinguin", "Aptenodytes_forsteri_-Snow_Hill_Island,_Antarctica_-adults_and_juvenile-8.jpg", "Ian Duffy", "CC BY 2.0", 1], ["Kiwi", "TeTuatahianui.jpg", "Maungatautari Ecological Island Trust", "Public domain", 1], ["Emu", "Emu_1_-_Tidbinbilla.jpg", "JJ Harrison", "CC BY-SA 4.0", 1], ["Wald|kauz", "Waldkauz-Strix_aluco.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Fasan", "Common_Pheasant_Phasianus_Colchicus_flipped.jpg", "David Croad", "CC BY 3.0", 0], ["Grau|schnäpper", "Muscicapa_striata_мухоловка_сіра.jpg", "Бусел В.А.", "CC BY-SA 4.0", 0], ["Garten|rot|schwanz", "Phoenicurus_phoenicurus_male(ThKraft).jpg", "Thomas Kraft", "CC BY-SA 2.5", 0], ["Kiebitz", "Northern-Lapwing-Vanellus-vanellus_crop.jpg", "Andreas Trepte, MPF", "CC BY-SA 2.5", 0], ["Grau|gans", "Greylag-Goose.jpg", "Andreas Trepte", "CC BY-SA 2.5", 0], ["Bart|geier", "010e_Wild_Bearded_Vulture_in_flight_at_Pfyn-Finges_(Switzerland)_Photo_by_Giles_Laurent.jpg", "Giles Laurent", "CC BY-SA 4.0", 0], ["Uhu", "Uhu-muc.jpg", "Softeis", "CC BY-SA 3.0", 0]];
+  // "|" im Namen markiert Trennstellen für lange Wörter (weiches Trennzeichen auf den Kärtchen)
+  BIRDS.forEach(function (b) { b.label = b[0].replace(/\|/g, "\u00AD"); b[0] = b[0].replace(/\|/g, ""); });
+  function labelOf(name) { for (var i = 0; i < BIRDS.length; i++) if (BIRDS[i][0] === name) return BIRDS[i].label; return name; }
+  var TOTAL = 10;       // Vögel pro Runde
+  var CHOICES = 9;      // Namen zur Auswahl
+  var FAST_MS = 60000;  // unter 60 s und alles richtig = Krone
+  var $ = function (id) { return document.getElementById(id); };
+  var screens = { start: $("start"), quiz: $("quiz"), result: $("result") };
+
+  function show(name) { for (var k in screens) screens[k].hidden = (k !== name); }
+  function fmtTime(ms) {
+    var s = Math.round(ms / 1000), m = Math.floor(s / 60), r = s % 60;
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+  function imgUrl(file, w) {
+    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file) + "?width=" + w;
+  }
+  function pageUrl(file) { return "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(file); }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+
+  /* ---------- Gespeichertes (pro Gerät) ---------- */
+  function bestKey(m) { return "vogel-best-" + m; }
+  function loadBest(m) {
+    try { var b = JSON.parse(localStorage.getItem(bestKey(m))); if (b && typeof b.right === "number" && typeof b.ms === "number") return b; } catch (e) {}
+    return null;
+  }
+  function saveBest(m, b) { try { localStorage.setItem(bestKey(m), JSON.stringify(b)); } catch (e) {} }
+  function loadTotal() {
+    try { var t = JSON.parse(localStorage.getItem("vogel-total")); if (t && typeof t.solved === "number") return t; } catch (e) {}
+    return { solved: 0, right: 0 };
+  }
+  function addTotal(ok) {
+    var t = loadTotal(); t.solved++; if (ok) t.right++;
+    try { localStorage.setItem("vogel-total", JSON.stringify(t)); } catch (e) {}
+  }
+  function totalText() {
+    var t = loadTotal();
+    if (!t.solved) return "";
+    return "Du hast schon " + t.solved + (t.solved === 1 ? " Vogel" : " Vögel") + " bestimmt, davon " + t.right + " richtig.";
+  }
+  function showBest() {
+    var tt = totalText();
+    $("total-start").textContent = tt; $("total-start").hidden = tt === "";
+    [["common", "Häufige Vögel"], ["all", "Alle Vögel"]].forEach(function (m) {
+      var b = loadBest(m[0]), el = $("best-" + m[0]);
+      el.hidden = !b;
+      if (b) el.textContent = "Bestes Ergebnis (" + m[1] + "): " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
+    });
+  }
+  function verdict(wrong, ms) {
+    if (wrong === 0 && ms < FAST_MS) return { badge: "👑", text: "Tolle Leistung! Du kennst die Vögel!" };
+    if (wrong === 0) return { badge: "👍", text: "Alles richtig. Du kannst das noch ein bisschen schneller!" };
+    if (wrong <= 2) return { badge: "", text: "Übe fleissig weiter!" };
+    return { badge: "", text: "Übung macht den Meister!" };
+  }
+
+  /* ---------- Runde ---------- */
+  var mode = "common", pool = [], tasks = [], idx = 0, answered = false, taskStart = 0, elapsed = 0;
+
+  function newRound(m) {
+    mode = m === "all" ? "all" : "common";
+    pool = BIRDS.filter(function (b) { return mode === "all" || b[4] === 1; });
+    tasks = shuffle(pool.slice()).slice(0, TOTAL);
+    idx = 0; elapsed = 0;
+    var dots = "";
+    for (var d = 0; d < TOTAL; d++) dots += '<span class="dot"></span>';
+    $("dots").innerHTML = dots;
+    show("quiz");
+    showTask();
+  }
+
+  function preload(i) { if (i < tasks.length) { var im = new Image(); im.src = imgUrl(tasks[i][1], 900); } }
+
+  function showTask() {
+    var t = tasks[idx];
+    answered = false;
+    $("count").textContent = "Vogel " + (idx + 1) + " von " + TOTAL;
+    var dots = $("dots").children;
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("now", i === idx);
+
+    var img = $("photo");
+    $("loading").hidden = false;
+    $("loading").textContent = "Foto lädt …";
+    img.removeAttribute("src");
+    img.hidden = true;
+    img.onload = function () { $("loading").hidden = true; img.hidden = false; };
+    img.onerror = function () { $("loading").textContent = "Foto konnte nicht geladen werden"; };
+    img.src = imgUrl(t[1], 900);
+    $("credit").innerHTML = "Foto: " + (t[2] ? esc(t[2]) + ", " : "") + esc(t[3]) +
+      ' · <a href="' + pageUrl(t[1]) + '" target="_blank" rel="noopener">Wikimedia Commons</a>';
+
+    var fb = $("feedback"); fb.className = "feedback"; fb.textContent = "Welcher Vogel ist das?";
+    $("btn-go").hidden = true;
+
+    // 8 falsche Namen aus demselben Pool
+    var others = shuffle(pool.filter(function (b) { return b[0] !== t[0]; })).slice(0, CHOICES - 1);
+    var names = shuffle(others.map(function (b) { return b[0]; }).concat([t[0]]));
+    var box = $("choices"); box.innerHTML = "";
+    names.forEach(function (n) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = labelOf(n); b.setAttribute("data-n", n);
+      if (n.length >= 16) b.className = "s";   // sehr lange Namen etwas kleiner
+      box.appendChild(b);
+    });
+    taskStart = Date.now();
+    preload(idx + 1);
+  }
+
+  function pick(btn) {
+    if (answered) return;
+    answered = true;
+    var t = tasks[idx], given = btn.getAttribute("data-n");
+    elapsed += Date.now() - taskStart;
+    t.given = given; t.ok = given === t[0];
+    addTotal(t.ok);
+    var all = $("choices").querySelectorAll("button");
+    for (var i = 0; i < all.length; i++) {
+      all[i].disabled = true;
+      if (all[i].getAttribute("data-n") === t[0]) all[i].classList.add("ok");
+      else if (all[i] === btn) all[i].classList.add("no");
+    }
+    var fb = $("feedback");
+    fb.className = "feedback " + (t.ok ? "ok" : "no");
+    fb.innerHTML = (t.ok ? "Richtig!" : "Das stimmt leider nicht.") + '<span class="solution">' + esc(t[0]) + "</span>";
+    var dot = $("dots").children[idx]; dot.classList.remove("now"); dot.classList.add(t.ok ? "ok" : "no");
+    var go = $("btn-go"); go.textContent = idx === TOTAL - 1 ? "Zum Ergebnis" : "Weiter"; go.hidden = false; go.focus();
+  }
+
+  function next() { if (idx < TOTAL - 1) { idx++; showTask(); } else finish(); }
+
+  function finish() {
+    var right = 0;
+    for (var i = 0; i < tasks.length; i++) if (tasks[i].ok) right++;
+    var wrong = TOTAL - right;
+    $("n-right").textContent = right; $("n-wrong").textContent = wrong; $("n-time").textContent = fmtTime(elapsed);
+    var v = verdict(wrong, elapsed);
+    $("badge").textContent = v.badge; $("badge").hidden = v.badge === "";
+    $("headline").textContent = v.text;
+    $("total").textContent = totalText();
+
+    var best = loadBest(mode);
+    var isRecord = !best || right > best.right || (right === best.right && elapsed < best.ms);
+    if (isRecord) saveBest(mode, { right: right, ms: elapsed });
+    $("record").textContent = isRecord && best ? "Das ist dein neues bestes Ergebnis!"
+      : (!isRecord ? "Dein bestes Ergebnis bisher: " + best.right + " richtig in " + fmtTime(best.ms) + " Minuten" : "");
+
+    var html = "";
+    tasks.forEach(function (t) {
+      var pic = '<img src="' + imgUrl(t[1], 160) + '" alt="">';
+      html += t.ok
+        ? '<li class="ok">' + pic + "<span>✓ " + esc(t[0]) + "</span></li>"
+        : '<li class="no">' + pic + "<span>✗ <s>" + esc(t.given || "–") + "</s> <b>" + esc(t[0]) + "</b></span></li>";
+    });
+    $("review").innerHTML = html;
+    show("result");
+    $("btn-again").focus();
+  }
+
+  function stopRound() {
+    // Abbruch: nur beantwortete Vögel zählen, keine Bestleistung
+    tasks = tasks.slice(0, idx + (answered ? 1 : 0));
+    if (!tasks.length) { toMenu(); return; }
+    var right = 0; tasks.forEach(function (t) { if (t.ok) right++; });
+    $("n-right").textContent = right; $("n-wrong").textContent = tasks.length - right; $("n-time").textContent = fmtTime(elapsed);
+    $("badge").hidden = true; $("headline").textContent = "Übung beendet.";
+    $("record").textContent = ""; $("total").textContent = totalText();
+    var html = "";
+    tasks.forEach(function (t) {
+      var pic = '<img src="' + imgUrl(t[1], 160) + '" alt="">';
+      html += t.ok ? '<li class="ok">' + pic + "<span>✓ " + esc(t[0]) + "</span></li>"
+                   : '<li class="no">' + pic + "<span>✗ <s>" + esc(t.given || "–") + "</s> <b>" + esc(t[0]) + "</b></span></li>";
+    });
+    $("review").innerHTML = html;
+    show("result");
+  }
+
+  function toMenu() { showBest(); show("start"); }
+
+  $("btn-common").addEventListener("click", function () { newRound("common"); });
+  $("btn-all").addEventListener("click", function () { newRound("all"); });
+  $("btn-again").addEventListener("click", function () { newRound(mode); });
+  $("btn-menu").addEventListener("click", toMenu);
+  $("btn-stop").addEventListener("click", stopRound);
+  $("btn-go").addEventListener("click", next);
+  $("choices").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (b && !b.disabled) pick(b);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter") return;
+    if (!screens.quiz.hidden && answered) { e.preventDefault(); next(); }
+    else if (!screens.result.hidden) { e.preventDefault(); newRound(mode); }
+  });
+
+  showBest();
+})();
+</script>
+</body>
+</html>
