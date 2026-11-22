@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>Johannas Französisch-Trainer</title>
+<link rel="icon" type="image/png" sizes="64x64" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+<meta name="apple-mobile-web-app-title" content="Französisch">
+<meta name="theme-color" content="#1b3358">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout wie die anderen Trainer von Johannas Lernseite: Häuschenpapier, schmale Spalte, grosse Tasten. */
+:root {
+  --paper: #f8faf3;
+  --grid: #d3e3ea;
+  --ink: #1b3358;
+  --ink-soft: #5a6d88;
+  --surface: #ffffff;
+  --edge: #b9cbd6;
+  --key: #ffffff;
+  --key-press: #e4eef3;
+  --primary: #1b3358;
+  --on-primary: #ffffff;
+  --right: #1f8a4c;
+  --right-bg: #dff3e6;
+  --wrong: #c8372d;
+  --wrong-bg: #fbe3e0;
+  --hint: #b26a00;
+  --orange: #e8742a;
+  --orange-bg: #fdebdc;
+  --green: #7a9a2a;
+  --green-bg: #eef3dc;
+  --font-display: "Baloo 2", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1c3a33; --grid: #2a4b43; --ink: #f3f0e4; --ink-soft: #b3c4bb;
+    --surface: #24463e; --edge: #3f655b; --key: #2a5047; --key-press: #37635a;
+    --primary: #f3f0e4; --on-primary: #1c3a33;
+    --right: #8fe0a8; --right-bg: #23543c; --wrong: #ffa69c; --wrong-bg: #5a3230; --hint: #ffcc70;
+    --orange: #f08a45; --orange-bg: #4a3222; --green: #a6c34f; --green-bg: #33401d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1c3a33; --grid: #2a4b43; --ink: #f3f0e4; --ink-soft: #b3c4bb;
+  --surface: #24463e; --edge: #3f655b; --key: #2a5047; --key-press: #37635a;
+  --primary: #f3f0e4; --on-primary: #1c3a33;
+  --right: #8fe0a8; --right-bg: #23543c; --wrong: #ffa69c; --wrong-bg: #5a3230; --hint: #ffcc70;
+  --orange: #f08a45; --orange-bg: #4a3222; --green: #a6c34f; --green-bg: #33401d;
+  color-scheme: dark;
+}
+
+html { height: 100%; }
+body {
+  min-height: 100%;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  padding-inline: 16px;
+  padding-block: 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+*, *::before, *::after { box-sizing: inherit; }
+main { width: 100%; max-width: 460px; display: flex; flex-direction: column; margin-block: auto; }
+section { display: flex; flex-direction: column; gap: 16px; }
+
+h1, h2 { font-family: var(--font-display); font-weight: 800; line-height: 1.05; margin: 0; text-wrap: balance; }
+h1 { font-size: 2.6rem; }
+h2 { font-size: 1.8rem; }
+p { margin: 0; }
+.soft { color: var(--ink-soft); }
+.back { font-weight: 700; color: var(--ink-soft); text-decoration: none; }
+.back:hover { text-decoration: underline; }
+a { color: inherit; }
+
+button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; }
+button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+.primary {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+  background: var(--primary); color: var(--on-primary);
+  border: 0; border-radius: 16px; padding: 14px 20px; width: 100%;
+}
+.primary:disabled { opacity: 0.35; cursor: default; }
+.primary:active:not(:disabled) { transform: translateY(2px); }
+.ghost {
+  font-weight: 700; font-size: 1rem; background: transparent; color: var(--ink-soft);
+  border: 2px solid var(--edge); border-radius: 12px; padding: 10px 14px; width: 100%;
+}
+.ghost:active { transform: translateY(1px); }
+
+/* Listenauswahl: jede Unité ist ein Schalter, mehrere können an sein */
+.lists { display: flex; flex-direction: column; gap: 10px; }
+.list {
+  display: flex; align-items: center; gap: 12px; text-align: left;
+  background: var(--surface); color: var(--ink);
+  border: 3px solid var(--edge); border-radius: 16px; padding: 12px 14px; width: 100%;
+}
+.list.on { border-color: var(--primary); }
+/* Partie 2 (Vocabulaire plus) ist im Buch farbig hinterlegt: Dis donc! 5 grün, Dis donc! 6 orange */
+.list.p2.b6 { background: var(--orange-bg); }
+.list.p2.b6 .box { border-color: var(--orange); }
+.list.p2.b6.on { border-color: var(--orange); }
+.list.p2.b6.on .box { background: var(--orange); border-color: var(--orange); }
+.list.p2.b5 { background: var(--green-bg); }
+.list.p2.b5 .box { border-color: var(--green); }
+.list.p2.b5.on { border-color: var(--green); }
+.list.p2.b5.on .box { background: var(--green); border-color: var(--green); }
+.list .box {
+  width: 30px; height: 30px; flex: none; border-radius: 9px; border: 3px solid var(--edge);
+  display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--on-primary); font-size: 1.1rem;
+}
+.list.on .box { background: var(--primary); border-color: var(--primary); }
+.list b { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; line-height: 1.15; }
+.list span { display: block; font-size: 0.85rem; color: var(--ink-soft); }
+.list .n { margin-left: auto; flex: none; font-family: var(--font-display); font-weight: 700; color: var(--ink-soft); font-size: 0.95rem; }
+.list:active { transform: translateY(1px); }
+.row { display: flex; gap: 10px; }
+.row .ghost { width: auto; flex: 1; }
+.best { background: var(--surface); border: 2px dashed var(--edge); border-radius: 14px; padding: 10px 14px; }
+
+/* Abfrage */
+.progress { display: flex; flex-direction: column; gap: 8px; }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.dot { height: 10px; border-radius: 5px; background: var(--surface); border: 2px solid var(--edge); }
+.dot.now { border-color: var(--ink); }
+.dot.ok { background: var(--right); border-color: var(--right); }
+.dot.no { background: var(--wrong); border-color: var(--wrong); }
+.card {
+  background: var(--surface); border: 3px solid var(--ink); border-radius: 16px; padding: 18px 16px 16px; text-align: center;
+}
+.card .from { font-size: 0.85rem; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+.card .word { font-family: var(--font-display); font-weight: 800; font-size: 2rem; line-height: 1.15; margin-top: 4px; text-wrap: balance; }
+.card .word.long { font-size: 1.5rem; }
+.inputs { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.inputs label { display: flex; flex-direction: column; gap: 4px; font-weight: 700; font-size: 0.95rem; color: var(--ink-soft); }
+.inputs input {
+  font: inherit; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: var(--ink);
+  background: var(--surface); border: 3px solid var(--ink); border-radius: 12px; padding: 8px 12px; width: 100%;
+}
+.inputs input:focus { outline: 3px solid var(--ink-soft); outline-offset: 2px; }
+.inputs input.ok { border-color: var(--right); background: var(--right-bg); }
+.inputs input.no { border-color: var(--wrong); background: var(--wrong-bg); }
+.accents { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.accents button {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1; min-width: 44px; padding: 8px 8px 6px;
+  background: var(--key); border: 2px solid var(--edge); border-bottom-width: 4px; border-radius: 10px;
+}
+.accents button:active:not(:disabled) { background: var(--key-press); transform: translateY(2px); border-bottom-width: 2px; }
+.accents button:disabled { opacity: 0.4; cursor: default; }
+
+.hint { text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--hint); letter-spacing: 0.08em; min-height: 1.5em; }
+.hint small { display: block; font-family: var(--font-body); font-weight: 400; font-size: 0.8rem; letter-spacing: 0; color: var(--ink-soft); }
+.tools { display: flex; gap: 10px; }
+.tools .ghost { width: auto; flex: 1; }
+.feedback { min-height: 2.6em; text-align: center; font-weight: 700; font-size: 1.1rem; }
+.feedback.ok { color: var(--right); }
+.feedback.no { color: var(--wrong); }
+.feedback.almost { color: var(--hint); }
+.feedback .solution { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--ink); }
+
+/* Ergebnis */
+.verdict { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.badge { font-size: 5rem; line-height: 1.1; }
+.score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.score div { background: var(--surface); border: 2px solid var(--edge); border-radius: 14px; padding: 10px 6px 8px; text-align: center; }
+.score b { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.score span { font-size: 0.85rem; color: var(--ink-soft); }
+.score .ok b { color: var(--right); }
+.score .no b { color: var(--wrong); }
+.levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.levels div { background: var(--surface); border: 2px solid var(--edge); border-radius: 14px; padding: 10px 4px 8px; text-align: center; }
+.levels .ico { display: block; font-size: 1.8rem; line-height: 1.2; }
+.levels b { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.review { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 6px; font-size: 1rem; }
+.review li { display: flex; flex-direction: column; gap: 2px; padding: 6px 10px; border-radius: 10px; }
+.review li.ok { color: var(--right); }
+.review li.no { background: var(--wrong-bg); color: var(--wrong); }
+.review li.almost { background: var(--surface); color: var(--hint); }
+.review .de { font-size: 0.9rem; color: var(--ink-soft); }
+.review s { opacity: 0.8; }
+.review b { color: var(--ink); }
+
+@media (max-width: 360px) { h1 { font-size: 2.2rem; } .card .word { font-size: 1.7rem; } }
+</style>
+</head>
+<body>
+
+<main>
+  <section id="start">
+    <a class="back" href="index.html">← Johannas Lernseite</a>
+    <h1>Johannas Französisch-Trainer</h1>
+    <p>Wähle die Wortlisten, dann kommen 10 Wörter. Du siehst das deutsche Wort und schreibst es auf Französisch – mit Artikel (le, la, un, une).</p>
+    <div id="lists" class="lists"></div>
+    <div id="selrow" class="row">
+      <button id="btn-all" class="ghost" type="button">Alle auswählen</button>
+      <button id="btn-none" class="ghost" type="button">Keine</button>
+    </div>
+    <button id="btn-start" class="primary" type="button">Los geht's</button>
+    <div id="bests" class="lists"></div>
+    <p id="total-start" class="soft" hidden></p>
+    <div id="levels-start" class="levels" hidden></div>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="progress">
+      <p id="count" class="soft">Wort 1 von 10</p>
+      <div id="dots" class="dots" aria-hidden="true"></div>
+    </div>
+    <div class="card">
+      <div id="from" class="from"></div>
+      <div id="word" class="word"></div>
+    </div>
+    <div class="inputs">
+      <label><span id="lbl-fr">Französisch</span> <input id="in-fr" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" lang="fr"></label>
+      <label id="lbl2-wrap" hidden><span id="lbl-fr2">weiblich</span> <input id="in-fr2" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" lang="fr"></label>
+    </div>
+    <p id="hint" class="hint" aria-live="polite"></p>
+    <div id="accents" class="accents" aria-label="Sonderzeichen">
+      <button type="button" data-ch="é">é</button>
+      <button type="button" data-ch="è">è</button>
+      <button type="button" data-ch="ê">ê</button>
+      <button type="button" data-ch="à">à</button>
+      <button type="button" data-ch="ç">ç</button>
+      <button type="button" data-ch="ù">ù</button>
+      <button type="button" data-ch="û">û</button>
+      <button type="button" data-ch="î">î</button>
+      <button type="button" data-ch="œ">œ</button>
+      <button type="button" data-ch="'">'</button>
+    </div>
+    <p id="feedback" class="feedback" aria-live="polite"></p>
+    <button id="btn-check" class="primary" type="button" disabled>Prüfen</button>
+    <button id="btn-go" class="primary" type="button" hidden>Weiter</button>
+    <div class="tools">
+      <button id="btn-help" class="ghost" type="button">💡 Hilfe</button>
+      <button id="btn-stop" class="ghost" type="button">Abbrechen</button>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="verdict">
+      <div id="badge" class="badge" aria-hidden="true" hidden></div>
+      <h2 id="headline">Geschafft!</h2>
+    </div>
+    <div class="score">
+      <div class="ok"><b id="n-right">0</b><span>richtig</span></div>
+      <div class="no"><b id="n-wrong">0</b><span>falsch</span></div>
+      <div><b id="n-time">0:00</b><span>Zeit</span></div>
+    </div>
+    <p id="record" class="soft"></p>
+    <p id="total" class="soft"></p>
+    <div id="levels-result" class="levels" hidden></div>
+    <ul id="review" class="review"></ul>
+    <button id="btn-again" class="primary" type="button">Noch einmal</button>
+    <button id="btn-menu" class="ghost" type="button">Zur Auswahl</button>
+  </section>
+</main>
+
+<script>
+(function () {
+  // Wortlisten: key, title, sub, words = [[Deutsch, Französisch, (weitere Antworten | "!")], ...]
+  var ALL_LISTS = [{"key":"f5","current":true,"title":"5 Français – Coucou, c'est moi: Sport","sub":"Lernwörter bis 26. November: Sportarten, Ich spiele / renne / schwimme","words":[["der Sport","le sport"],["das Tennis","le tennis"],["das Tischtennis","le tennis de table"],["der Tanz","la danse"],["der Fussball","le foot"],["das Fahrrad, das Velo","le vélo"],["der Rollschuh","le roller"],["das Skateboard","le skate"],["Ich spiele.","Je joue."],["Ich renne.","Je cours."],["Ich schwimme.","Je nage."]]}];
+  var LISTS = ALL_LISTS.filter(function (l) { return !l.hidden; });   // versteckte Listen sind noch nicht durchgesehen
+  // Reihenfolge: neuestes Buch und höchste Unité zuoberst, Dis donc! 5 Unité 1 zuunterst; Partie 1 vor Partie 2
+  LISTS.sort(function (a, b) {
+    function u(l) { var m = /Unité (\d+)/.exec(l.title); return m ? +m[1] : 0; }
+    return (b.book || 0) - (a.book || 0) || u(b) - u(a) || (a.part2 ? 1 : 0) - (b.part2 ? 1 : 0);
+  });
+  var TOTAL = 10;
+  var KEY = "franz";
+  var FAST_MS = 300000;   // 10 Wörter fehlerfrei in unter 5 Minuten getippt = Feuerwerk (Schreiben braucht länger als Auswählen)
+  var $ = function (id) { return document.getElementById(id); };
+  var screens = { start: $("start"), quiz: $("quiz"), result: $("result") };
+
+  function show(name) { for (var k in screens) screens[k].hidden = (k !== name); }
+  function fmtTime(ms) { var s = Math.round(ms / 1000), m = Math.floor(s / 60), r = s % 60; return m + ":" + (r < 10 ? "0" : "") + r; }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function listByKey(k) { for (var i = 0; i < LISTS.length; i++) if (LISTS[i].key === k) return LISTS[i]; return null; }
+
+  /* ---------- Auswahl der Listen (wird gemerkt) ---------- */
+  var selected = [];
+  function loadSel() {
+    try { var s = JSON.parse(localStorage.getItem(KEY + "-sel")); if (s && s.length) selected = s.filter(listByKey); } catch (e) {}
+    if (!selected.length) {   // ohne gespeicherte Auswahl: die als "current" markierte Liste (aktuelle Unité), sonst die erste
+      var cur = LISTS.filter(function (l) { return l.current; });
+      selected = [(cur.length ? cur[0] : LISTS[0]).key];
+    }
+  }
+  function saveSel() { try { localStorage.setItem(KEY + "-sel", JSON.stringify(selected)); } catch (e) {} }
+  function renderLists() {
+    var box = $("lists"); box.innerHTML = "";
+    LISTS.forEach(function (l) {
+      var on = selected.indexOf(l.key) >= 0;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "list" + (on ? " on" : "") + (l.part2 ? " p2 b" + l.book : ""); b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.innerHTML = '<span class="box">' + (on ? "✓" : "") + '</span><span><b>' + esc(l.title) + "</b><span>" + esc(l.sub) + '</span></span><span class="n">' + l.words.length + "</span>";
+      b.addEventListener("click", function () {
+        var i = selected.indexOf(l.key);
+        if (i >= 0) selected.splice(i, 1); else selected.push(l.key);
+        saveSel(); renderLists();
+      });
+      box.appendChild(b);
+    });
+    $("btn-start").disabled = selected.length === 0;
+    $("selrow").hidden = LISTS.length < 2;
+  }
+  function selKey() {   // Schlüssel für den Bestwert: eine Liste -> ihr key, alle -> "alle", sonst Kombination
+    if (selected.length === LISTS.length) return "alle";
+    return selected.slice().sort().join("+");
+  }
+  function selTitle(k) {
+    if (k === "alle") return "Alle Listen";
+    var parts = k.split("+").map(function (x) { var l = listByKey(x); return l ? l.title : x; });
+    return parts.join(" + ");
+  }
+
+  /* ---------- Gespeichertes (pro Gerät) ---------- */
+  function bestKey(m) { return KEY + "-best-" + m; }
+  function loadBest(m) { try { var b = JSON.parse(localStorage.getItem(bestKey(m))); if (b && typeof b.right === "number" && typeof b.ms === "number") return b; } catch (e) {} return null; }
+  function saveBest(m, b) { try { localStorage.setItem(bestKey(m), JSON.stringify(b)); } catch (e) {} }
+  function loadTotal() { try { var t = JSON.parse(localStorage.getItem(KEY + "-total")); if (t && typeof t.solved === "number") return t; } catch (e) {} return { solved: 0, right: 0 }; }
+  function addTotal(ok) { var t = loadTotal(); t.solved++; if (ok) t.right++; try { localStorage.setItem(KEY + "-total", JSON.stringify(t)); } catch (e) {} }
+  function totalText() { var t = loadTotal(); if (!t.solved) return ""; return "Du hast schon " + t.solved + (t.solved === 1 ? " Wort" : " Wörter") + " geschrieben, davon " + t.right + " richtig."; }
+  function showBest() {
+    var tt = totalText(); $("total-start").textContent = tt; $("total-start").hidden = tt === "";
+    renderLevels("levels-start");
+    var box = $("bests"); box.innerHTML = "";
+    var keys = LISTS.map(function (l) { return l.key; }).concat(["alle"]);
+    keys.forEach(function (k) {
+      var b = loadBest(k); if (!b) return;
+      var el = document.createElement("p"); el.className = "best";
+      el.textContent = "Bestes Ergebnis (" + selTitle(k) + "): " + b.right + " von " + TOTAL + " richtig in " + fmtTime(b.ms) + " Minuten";
+      box.appendChild(el);
+    });
+  }
+
+  /* Belohnung: gleiche Stufen wie in den anderen Trainern
+     Stufe 1: 0 Fehler und schnell      -> Feuerwerk  "Du bist ein Champion!"
+     Stufe 2: 0 Fehler, langsamer        -> Krone
+     Stufe 3: genau 1 Fehler             -> Daumen
+     Stufe 4: 2+ Fehler                  -> Keimling */
+  function verdict(wrong, ms, fast) {
+    if (wrong === 0 && ms < (fast || FAST_MS)) return { level: "fire",  badge: "", text: "Du bist ein Champion!", fireworks: true };
+    if (wrong === 0) return { level: "crown", badge: "👑", text: "Tolle Leistung! Alles richtig! Noch ein bisschen schneller." };
+    if (wrong === 1) return { level: "thumb", badge: "👍", text: "Übe fleissig weiter!" };
+    return { level: "seed", badge: "🌱", text: "Übung macht den Meister!" };
+  }
+  var LEVELS = [
+    { key: "fire",  icon: "✨", name: "Feuerwerk" },
+    { key: "crown", icon: "👑", name: "Krone" },
+    { key: "thumb", icon: "👍", name: "Daumen" },
+    { key: "seed",  icon: "🌱", name: "Keimling" }
+  ];
+  function loadLevels() {
+    var l = { fire: 0, crown: 0, thumb: 0, seed: 0 };
+    try { var s = JSON.parse(localStorage.getItem(KEY + "-levels")); if (s) for (var k in l) if (typeof s[k] === "number") l[k] = s[k]; } catch (e) {}
+    return l;
+  }
+  function addLevel(key) { var l = loadLevels(); if (key in l) l[key]++; try { localStorage.setItem(KEY + "-levels", JSON.stringify(l)); } catch (e) {} }
+  function renderLevels(id) {
+    var l = loadLevels(), any = false, html = "";
+    for (var i = 0; i < LEVELS.length; i++) {
+      var lv = LEVELS[i];
+      if (l[lv.key]) any = true;
+      html += '<div title="' + lv.name + '"><span class="ico" aria-hidden="true">' + lv.icon + "</span><b>" + l[lv.key] + "</b></div>";
+    }
+    $(id).innerHTML = html; $(id).hidden = !any;
+  }
+  function fireworks() {
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var c = document.createElement("canvas");
+      c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999";
+      document.body.appendChild(c);
+      var ctx = c.getContext("2d"), dpr = window.devicePixelRatio || 1;
+      c.width = window.innerWidth * dpr; c.height = window.innerHeight * dpr;
+      var parts = [], colors = ["#ffd166", "#ff5d8f", "#06d6a0", "#4cc9f0", "#ff9f1c", "#ffffff", "#c77dff"];
+      function burst(x, y) {
+        var col = colors[Math.floor(Math.random() * colors.length)];
+        for (var i = 0; i < 90; i++) {
+          var a = Math.random() * Math.PI * 2, s = (2.5 + Math.random() * 5.5) * dpr;
+          parts.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 1, col: Math.random() < 0.7 ? col : "#ffffff", r: (2.5 + Math.random() * 3) * dpr });
+        }
+      }
+      var t0 = Date.now(), n = 0;
+      burst(0.5 * c.width, 0.25 * c.height);
+      var timer = setInterval(function () { if (n++ < 8) burst((0.15 + Math.random() * 0.7) * c.width, (0.12 + Math.random() * 0.45) * c.height); else clearInterval(timer); }, 330);
+      function frame() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i];
+          p.x += p.vx; p.y += p.vy; p.vy += 0.05 * dpr; p.vx *= 0.985; p.vy *= 0.985; p.life -= 0.013;
+          if (p.life <= 0) { parts.splice(i, 1); continue; }
+          ctx.globalAlpha = Math.max(0, p.life); ctx.fillStyle = p.col; ctx.shadowBlur = 8 * dpr; ctx.shadowColor = p.col;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (0.6 + 0.4 * p.life), 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+        if (Date.now() - t0 < 3600 || parts.length) requestAnimationFrame(frame);
+        else if (c.parentNode) c.parentNode.removeChild(c);
+      }
+      requestAnimationFrame(frame);
+    } catch (e) {}
+  }
+
+  /* ---------- Antworten vergleichen ----------
+     Stufe A (richtig):       gleich bis auf Gross/Klein, Leerzeichen, Satzzeichen, Apostroph-Form, œ/oe
+     Stufe B (fast richtig):  zusätzlich ohne Akzente, Bindestriche und Apostrophe gleich -> zählt als richtig, Schreibweise wird gezeigt
+     Alles andere ist falsch. Keine Tippfehler-Toleranz: beim Wörtlilernen zählt die Schreibweise.
+     Hilfe (Artikel + 2 Buchstaben): das Wort zählt bei richtiger Antwort als richtig, wird aber orange mit 💡 markiert. */
+  function base(s) {
+    return String(s).toLowerCase()
+      .replace(/[’‘`´]/g, "'").replace(/œ/g, "oe").replace(/æ/g, "ae")
+      .replace(/…/g, " ").replace(/\.\.\./g, " ")
+      .replace(/[.!?,;:«»"]/g, "")
+      .replace(/\s*'\s*/g, "'")
+      .replace(/\s+/g, " ").trim();
+  }
+  function loose(s) {
+    return base(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[-']/g, " ").replace(/\s+/g, " ").trim();
+  }
+  function variants(fr, extra, noSplit) {   // alle akzeptierten Schreibweisen eines Eintrags
+    var out = [];
+    function add(s) { s = s.trim(); if (s && out.indexOf(s) < 0) out.push(s); }
+    function expand(s) {
+      add(s);
+      var noParen = s.replace(/\s*\([^)]*\)/g, "").trim();            // ohne Klammerzusatz: "l'allemand (m)" -> "l'allemand"
+      add(noParen);
+      add(s.replace(/[()]/g, ""));                                     // Klammern weg, Inhalt bleibt: "aller à", "sur la tablette numérique"
+      var m = noParen.match(/^(.*?)(\S+)\/(\S+)(.*)$/);                // "un/une enfant" -> "un enfant", "une enfant"
+      if (m) { add(m[1] + m[2] + m[4]); add(m[1] + m[3] + m[4]); }
+    }
+    expand(fr);
+    if (!noSplit && fr.indexOf(",") >= 0) fr.split(",").forEach(expand);   // "la mère, la maman" -> beide einzeln
+    (extra || []).forEach(expand);
+    return out;
+  }
+  function grade(input, item) {   // 2 = richtig, 1 = fast richtig (Akzente/Bindestrich), 0 = falsch
+    var a = base(input), al = loose(input);
+    if (!a) return 0;
+    var vs = item.acc;
+    for (var i = 0; i < vs.length; i++) if (a === base(vs[i])) return 2;
+    for (var j = 0; j < vs.length; j++) if (al === loose(vs[j])) return 1;
+    return 0;
+  }
+
+  /* ---------- Runde ---------- */
+  var tasks = [], idx = 0, answered = false, taskStart = 0, elapsed = 0, roundKey = "alle";
+  function pool() {
+    var p = [];
+    selected.forEach(function (k) {
+      var l = listByKey(k); if (!l) return;
+      l.words.forEach(function (w) {
+        var extra = Array.isArray(w[2]) ? w[2] : null, noSplit = w[2] === "!" || w[3] === "!";
+        var m = w[1].replace(/\s*\([^)]*\)/g, "").match(/^(.*?)(\S+)\/(\S+)(.*)$/);   // "droit/droite" -> Paar (m/w); Klammern wie "(m/f pl)" zählen nicht
+        if (m) {
+          var a = (m[1] + m[2] + m[4]).trim(), b = (m[1] + m[3] + m[4]).trim();
+          p.push({ de: w[0], fr: a + " / " + b, pair: true, fr1: a, fr2: b, acc: variants(a, null, true), acc2: variants(b, null, true), list: l.title });
+        } else {
+          p.push({ de: w[0], fr: w[1], acc: variants(w[1], extra, noSplit), list: l.title });
+        }
+      });
+    });
+    return p;
+  }
+  function newRound() {
+    if (!selected.length) return;
+    roundKey = selKey();
+    var p = shuffle(pool());
+    tasks = p.slice(0, Math.min(TOTAL, p.length));
+    idx = 0; elapsed = 0;
+    var dots = ""; for (var d = 0; d < tasks.length; d++) dots += '<span class="dot"></span>';
+    $("dots").innerHTML = dots;
+    $("dots").style.gridTemplateColumns = "repeat(" + tasks.length + ", 1fr)";
+    show("quiz");
+    showTask();
+  }
+  function showTask() {
+    var t = tasks[idx];
+    answered = false;
+    $("count").textContent = "Wort " + (idx + 1) + " von " + tasks.length;
+    $("from").textContent = selected.length > 1 ? t.list : "Deutsch";
+    $("word").textContent = t.de;
+    $("word").className = "word" + (t.de.length > 22 ? " long" : "");
+    var inp = $("in-fr"), inp2 = $("in-fr2");
+    inp.value = ""; inp.className = ""; inp.readOnly = false;
+    inp2.value = ""; inp2.className = ""; inp2.readOnly = false;
+    $("lbl-fr").textContent = t.pair ? "männlich" : "Französisch";
+    $("lbl2-wrap").hidden = !t.pair;
+    $("hint").textContent = "";
+    $("btn-help").disabled = false;
+    $("feedback").className = "feedback"; $("feedback").textContent = "";
+    $("btn-check").hidden = false; $("btn-check").disabled = true;
+    $("btn-go").hidden = true;
+    setAccents(true);
+    var dots = $("dots").children;
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("now", i === idx);
+    taskStart = Date.now();
+    setTimeout(function () { inp.focus(); }, 50);
+  }
+  function setAccents(on) {
+    var bs = $("accents").querySelectorAll("button");
+    for (var i = 0; i < bs.length; i++) bs[i].disabled = !on;
+  }
+  function activeInput() {   // Feld, das zuletzt den Fokus hatte (für Sonderzeichen-Tasten)
+    var t = tasks[idx];
+    if (t && t.pair && lastField === 2) return $("in-fr2");
+    return $("in-fr");
+  }
+  var lastField = 1;
+  function updateCheck() {
+    var t = tasks[idx];
+    var ok = !!$("in-fr").value.trim() && (!t || !t.pair || !!$("in-fr2").value.trim());
+    $("btn-check").disabled = !ok;
+  }
+  function hintFor(exp) {   // Artikel (falls vorhanden) + erste zwei Buchstaben, Rest als Striche
+    var s = exp.replace(/\s*\([^)]*\)/g, "").replace(/[…]/g, "").trim();
+    var pre = "";
+    var m = s.match(/^((?:le|la|les|un|une|des)\s+|l')(.*)$/i);
+    if (m) { pre = m[1]; s = m[2]; }
+    var out = "", shown = 0;
+    for (var i = 0; i < s.length; i++) {
+      var ch = s[i];
+      if (/[\s'’\-.,!?]/.test(ch)) { out += ch === " " ? "\u2002" : ch; continue; }
+      if (shown < 2) { out += ch; shown++; } else out += "_";
+    }
+    return pre + out;
+  }
+  function help() {
+    if (answered) return;
+    var t = tasks[idx];
+    t.helped = true;
+    var h = hintFor(t.pair ? t.fr1 : t.fr);
+    if (t.pair) h += "  /  " + hintFor(t.fr2);
+    $("hint").innerHTML = esc(h) + "<small>Artikel und die ersten zwei Buchstaben</small>";
+    $("btn-help").disabled = true;
+    activeInput().focus();
+  }
+  function check() {
+    if (answered) return;
+    var inp = $("in-fr"), val = inp.value.trim(), t = tasks[idx];
+    if (!val) return;
+    var inp2 = $("in-fr2"), val2 = inp2.value.trim();
+    if (t.pair && !val2) { inp2.focus(); return; }
+    answered = true;
+    elapsed += Date.now() - taskStart;
+    t.given = val;
+    t.grade = grade(val, t);
+    if (t.pair) {
+      t.given2 = val2;
+      var g2 = grade(val2, { acc: t.acc2 });
+      t.grade1 = t.grade; t.grade2 = g2;
+      t.grade = Math.min(t.grade, g2);
+      inp2.readOnly = true; inp2.className = g2 > 0 ? "ok" : "no";
+      t.given = val + " / " + val2;
+    }
+    t.ok = t.grade > 0;
+    addTotal(t.ok);
+    inp.readOnly = true; inp.className = (t.pair ? t.grade1 : t.grade) > 0 ? "ok" : "no";
+    setAccents(false);
+    $("btn-help").disabled = true;
+    var fb = $("feedback");
+    fb.className = "feedback " + (t.grade === 2 && !t.helped ? "ok" : t.grade > 0 ? "almost" : "no");
+    var text = t.grade === 2 ? (t.helped ? "Richtig – mit Hilfe." : "Richtig!") : t.grade === 1 ? "Richtig – achte auf die Schreibweise:" : "Das stimmt leider nicht.";
+    fb.innerHTML = text + '<span class="solution">' + esc(t.fr) + "</span>";
+    var dot = $("dots").children[idx]; dot.classList.remove("now"); dot.classList.add(t.ok ? "ok" : "no");
+    $("btn-check").hidden = true;
+    var go = $("btn-go"); go.textContent = idx === tasks.length - 1 ? "Zum Ergebnis" : "Weiter"; go.hidden = false; go.focus();
+  }
+  function next() {
+    if (idx < tasks.length - 1) { idx++; showTask(); } else finish(false);
+  }
+  function reviewLine(t) {
+    var cls = t.grade === 2 && !t.helped ? "ok" : t.grade > 0 ? "almost" : "no";
+    var mark = t.grade > 0 ? (t.helped ? "💡 " : "✓ ") : "✗ ";
+    var sol = t.grade === 2 ? esc(t.fr) : t.grade === 1 ? "<s>" + esc(t.given) + "</s> <b>" + esc(t.fr) + "</b>" : "<s>" + esc(t.given || "–") + "</s> <b>" + esc(t.fr) + "</b>";
+    return '<li class="' + cls + '"><span class="de">' + esc(t.de) + "</span><span>" + mark + sol + "</span></li>";
+  }
+  function finish(aborted) {
+    var done = aborted ? tasks.slice(0, idx + (answered ? 1 : 0)) : tasks;
+    if (!done.length) { toMenu(); return; }
+    var right = 0; done.forEach(function (t) { if (t.ok) right++; });
+    var wrong = done.length - right;
+    $("n-right").textContent = right; $("n-wrong").textContent = wrong; $("n-time").textContent = fmtTime(elapsed);
+    $("record").textContent = "";
+    if (aborted || done.length < TOTAL) { $("badge").hidden = true; $("headline").textContent = aborted ? "Übung beendet." : "Geschafft!"; }
+    else {
+      var v = verdict(wrong, elapsed, FAST_MS);
+      addLevel(v.level);
+      $("badge").textContent = v.badge; $("badge").hidden = v.badge === "";
+      $("headline").textContent = v.text;
+      var best = loadBest(roundKey);
+      var isRecord = !best || right > best.right || (right === best.right && elapsed < best.ms);
+      if (isRecord) saveBest(roundKey, { right: right, ms: elapsed });
+      $("record").textContent = isRecord && best ? "Das ist dein neues bestes Ergebnis!"
+        : (!isRecord ? "Dein bestes Ergebnis bisher: " + best.right + " richtig in " + fmtTime(best.ms) + " Minuten" : "");
+      if (v.fireworks) setTimeout(fireworks, 100);
+    }
+    $("total").textContent = totalText();
+    renderLevels("levels-result");
+    $("review").innerHTML = done.map(reviewLine).join("");
+    show("result");
+    $("btn-again").focus();
+  }
+  function toMenu() { renderLists(); showBest(); show("start"); }
+
+  /* ---------- Steuerung ---------- */
+  $("btn-start").addEventListener("click", newRound);
+  $("btn-all").addEventListener("click", function () { selected = LISTS.map(function (l) { return l.key; }); saveSel(); renderLists(); });
+  $("btn-none").addEventListener("click", function () { selected = []; saveSel(); renderLists(); });
+  $("btn-check").addEventListener("click", check);
+  $("btn-go").addEventListener("click", next);
+  $("btn-stop").addEventListener("click", function () { finish(true); });
+  $("btn-again").addEventListener("click", newRound);
+  $("btn-menu").addEventListener("click", toMenu);
+  $("btn-help").addEventListener("click", help);
+  $("in-fr").addEventListener("input", updateCheck);
+  $("in-fr2").addEventListener("input", updateCheck);
+  $("in-fr").addEventListener("focus", function () { lastField = 1; });
+  $("in-fr2").addEventListener("focus", function () { lastField = 2; });
+  $("in-fr").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    if (answered) { next(); return; }
+    var t = tasks[idx];
+    if (t && t.pair && this.value.trim() && !$("in-fr2").value.trim()) { $("in-fr2").focus(); return; }   // Paar: weiter ins zweite Feld
+    check();
+  });
+  $("in-fr2").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (answered) next(); else check(); } });
+  $("accents").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    var inp = activeInput(), ch = b.getAttribute("data-ch");
+    var s = inp.selectionStart == null ? inp.value.length : inp.selectionStart, en = inp.selectionEnd == null ? s : inp.selectionEnd;
+    inp.value = inp.value.slice(0, s) + ch + inp.value.slice(en);
+    inp.focus(); try { inp.setSelectionRange(s + ch.length, s + ch.length); } catch (err) {}
+    updateCheck();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented) return;   // Enter im Eingabefeld ist schon behandelt
+    if (!screens.quiz.hidden && answered && e.key === "Enter") { e.preventDefault(); next(); }
+    else if (!screens.result.hidden && e.key === "Enter") { e.preventDefault(); newRound(); }
+  });
+
+  loadSel();
+  renderLists();
+  showBest();
+})();
+</script>
+</body>
+</html>
